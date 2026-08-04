@@ -11,3 +11,10 @@ offset_top = 32.0
 offset_right = 107.0
 offset_bottom = 55.0
 text = "Starting..."
+
+[node name="ControlsLabel" type="Label" parent="." unique_id=1884905799]
+offset_left = 32.0
+offset_top = 64.0
+offset_right = 72.0
+offset_bottom = 87.0
+text = "WASD"
