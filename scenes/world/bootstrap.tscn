@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bv72arbl3y81a"]
+
+[ext_resource type="Script" uid="uid://d00nrmy1ckri7" path="res://scripts/bootstrap.gd" id="1_tp0nq"]
+
+[node name="Bootstrap" type="Node2D" unique_id=252344105]
+script = ExtResource("1_tp0nq")
+
+[node name="StatusLabel" type="Label" parent="." unique_id=1789101184]
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 107.0
+offset_bottom = 55.0
+text = "Starting..."
