@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d00nrmy1ckri7" path="res://scripts/bootstrap.gd" id="1_tp0nq"]
 [ext_resource type="PackedScene" uid="uid://ciubecxrc6egk" path="res://scenes/world/energy_beacon.tscn" id="2_4rpqk"]
+[ext_resource type="PackedScene" uid="uid://cvmbxw1ya6brt" path="res://scenes/player/player.tscn" id="3_r8rhy"]
 
 [node name="Bootstrap" type="Node2D" unique_id=252344105]
 script = ExtResource("1_tp0nq")
@@ -33,6 +34,9 @@ position = Vector2(640, 360)
 pulse_interval = 1.5
 active_color = Color(0.9463988, 0.672188, 0.8633414, 1)
 inactive_color = Color(1, 1, 1, 1)
+
+[node name="Player" parent="." unique_id=11883185 instance=ExtResource("3_r8rhy")]
+position = Vector2(640, 560)
 
 [connection signal="state_changed" from="BeaconA" to="." method="_on_beacon_state_changed"]
 [connection signal="state_changed" from="BeaconB" to="." method="_on_beacon_state_changed"]
