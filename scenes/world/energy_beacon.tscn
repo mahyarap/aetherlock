@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://ciubecxrc6egk"]
+
+[ext_resource type="Script" uid="uid://df61barsy4j82" path="res://scripts/energy_beacon.gd" id="1_1mcjm"]
+
+[node name="EnergyBeacon" type="Node2D" unique_id=631188114]
+script = ExtResource("1_1mcjm")
+
+[node name="Body" type="ColorRect" parent="." unique_id=1419904302]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0.6862745, 1, 1, 1)
+
+[node name="PulseTimer" type="Timer" parent="." unique_id=1434586604]
+autostart = true
+
+[connection signal="timeout" from="PulseTimer" to="." method="_on_pulse_timer_timeout"]

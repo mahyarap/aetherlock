@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bv72arbl3y81a"]
 
 [ext_resource type="Script" uid="uid://d00nrmy1ckri7" path="res://scripts/bootstrap.gd" id="1_tp0nq"]
+[ext_resource type="PackedScene" uid="uid://ciubecxrc6egk" path="res://scenes/world/energy_beacon.tscn" id="2_4rpqk"]
 
 [node name="Bootstrap" type="Node2D" unique_id=252344105]
 script = ExtResource("1_tp0nq")
@@ -18,3 +19,14 @@ offset_top = 64.0
 offset_right = 72.0
 offset_bottom = 87.0
 text = "WASD"
+
+[node name="BeaconA" parent="." unique_id=631188114 instance=ExtResource("2_4rpqk")]
+position = Vector2(320, 360)
+
+[node name="BeaconB" parent="." unique_id=1987913763 instance=ExtResource("2_4rpqk")]
+position = Vector2(480, 360)
+starts_active = false
+pulse_interval = 0.6000000000000001
+
+[connection signal="state_changed" from="BeaconA" to="." method="_on_beacon_state_changed"]
+[connection signal="state_changed" from="BeaconB" to="." method="_on_beacon_state_changed"]

@@ -2,8 +2,13 @@ extends Node2D
 
 @onready var status_label: Label = $StatusLabel
 @onready var controls_label: Label = $ControlsLabel
-# Called when the node enters the scene tree for the first time.
+
+
 func _ready() -> void:
-	status_label.text = "Aetherlock labratory online"
-	controls_label.text = "Move ..."
+	status_label.text = "Aetherlock laboratory online"
+	controls_label.text = "Move: WASD"
 	print("Bootstrap scene ready")
+	
+
+func _on_beacon_state_changed(is_active: bool) -> void:
+	status_label.text = "Beacon active: %s" % is_active
