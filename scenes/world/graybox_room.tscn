@@ -13,7 +13,7 @@ size = Vector2(32, 480)
 size = Vector2(32, 480)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dbnld"]
-size = Vector2(41.5, 44)
+size = Vector2(160, 32)
 
 [node name="GrayboxRoom" type="Node2D" unique_id=1009863243]
 
@@ -32,6 +32,7 @@ offset_left = 160.0
 offset_top = 104.0
 offset_right = 1120.0
 offset_bottom = 136.0
+mouse_filter = 2
 color = Color(0.34509805, 0.3882353, 0.41960785, 1)
 
 [node name="BottomVisual" type="ColorRect" parent="Walls" unique_id=581984324]
@@ -39,6 +40,7 @@ offset_left = 160.0
 offset_top = 584.0
 offset_right = 1120.0
 offset_bottom = 616.0
+mouse_filter = 2
 color = Color(0.34509805, 0.3882353, 0.41960785, 1)
 
 [node name="LeftVisual" type="ColorRect" parent="Walls" unique_id=1638740328]
@@ -46,6 +48,7 @@ offset_left = 144.0
 offset_top = 120.0
 offset_right = 176.0
 offset_bottom = 600.0
+mouse_filter = 2
 color = Color(0.34509805, 0.3882353, 0.41960785, 1)
 
 [node name="RightVisual" type="ColorRect" parent="Walls" unique_id=458387930]
@@ -53,6 +56,7 @@ offset_left = 1104.0
 offset_top = 120.0
 offset_right = 1136.0
 offset_bottom = 600.0
+mouse_filter = 2
 color = Color(0.34509805, 0.3882353, 0.41960785, 1)
 
 [node name="TopCollision" type="CollisionShape2D" parent="Walls" unique_id=848080859]
@@ -72,11 +76,13 @@ position = Vector2(1120, 360)
 shape = SubResource("RectangleShape2D_0qkhc")
 
 [node name="Bench" type="ColorRect" parent="Walls" unique_id=181730049]
-offset_left = 800.0
-offset_top = 360.0
-offset_right = 840.0
-offset_bottom = 400.0
+offset_left = 720.0
+offset_top = 344.0
+offset_right = 880.0
+offset_bottom = 376.0
+mouse_filter = 2
+color = Color(0.34509805, 0.3882353, 0.41960785, 1)
 
 [node name="BenchCollision" type="CollisionShape2D" parent="Walls" unique_id=1588703914]
-position = Vector2(821.25, 380)
+position = Vector2(800, 360)
 shape = SubResource("RectangleShape2D_dbnld")

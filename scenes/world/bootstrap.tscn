@@ -10,17 +10,19 @@ script = ExtResource("1_tp0nq")
 
 [node name="GrayboxRoom" parent="." unique_id=1009863243 instance=ExtResource("2_6wp35")]
 
-[node name="StatusLabel" type="Label" parent="." unique_id=1789101184]
+[node name="DebugUI" type="CanvasLayer" parent="." unique_id=124409610]
+
+[node name="StatusLabel" type="Label" parent="DebugUI" unique_id=1789101184]
 offset_left = 32.0
 offset_top = 32.0
 offset_right = 107.0
 offset_bottom = 55.0
 text = "Starting..."
 
-[node name="ControlsLabel" type="Label" parent="." unique_id=1884905799]
+[node name="ControlsLabel" type="Label" parent="DebugUI" unique_id=1884905799]
 offset_left = 32.0
 offset_top = 64.0
-offset_right = 72.0
+offset_right = 79.0
 offset_bottom = 87.0
 text = "WASD"
 
@@ -40,7 +42,6 @@ inactive_color = Color(1, 1, 1, 1)
 
 [node name="Player" parent="." unique_id=11883185 instance=ExtResource("3_r8rhy")]
 position = Vector2(640, 560)
-motion_mode = 0
 
 [connection signal="state_changed" from="BeaconA" to="." method="_on_beacon_state_changed"]
 [connection signal="state_changed" from="BeaconB" to="." method="_on_beacon_state_changed"]

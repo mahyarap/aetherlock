@@ -1,12 +1,12 @@
 extends Node2D
 
-@onready var status_label: Label = $StatusLabel
-@onready var controls_label: Label = $ControlsLabel
+@onready var status_label: Label = $DebugUI/StatusLabel
+@onready var controls_label: Label = $DebugUI/ControlsLabel
 
 
 func _ready() -> void:
 	status_label.text = "Aetherlock laboratory online"
-	controls_label.text = "Move: WASD"
+	controls_label.text = "Move: WASD | Aim: Mouse"
 	print("Bootstrap scene ready")
 	
 
