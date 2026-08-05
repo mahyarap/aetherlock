@@ -12,6 +12,9 @@ size = Vector2(32, 480)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0qkhc"]
 size = Vector2(32, 480)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dbnld"]
+size = Vector2(41.5, 44)
+
 [node name="GrayboxRoom" type="Node2D" unique_id=1009863243]
 
 [node name="Background" type="ColorRect" parent="." unique_id=1467418006]
@@ -67,3 +70,13 @@ shape = SubResource("RectangleShape2D_njivo")
 [node name="RightCollision" type="CollisionShape2D" parent="Walls" unique_id=1535516614]
 position = Vector2(1120, 360)
 shape = SubResource("RectangleShape2D_0qkhc")
+
+[node name="Bench" type="ColorRect" parent="Walls" unique_id=181730049]
+offset_left = 800.0
+offset_top = 360.0
+offset_right = 840.0
+offset_bottom = 400.0
+
+[node name="BenchCollision" type="CollisionShape2D" parent="Walls" unique_id=1588703914]
+position = Vector2(821.25, 380)
+shape = SubResource("RectangleShape2D_dbnld")
