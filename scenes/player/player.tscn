@@ -24,7 +24,6 @@ shape = SubResource("CircleShape2D_v801n")
 [node name="AimPivot" type="Node2D" parent="." unique_id=485155620]
 
 [node name="AimIndicator" type="ColorRect" parent="AimPivot" unique_id=1370462210]
-visible = false
 offset_left = 22.0
 offset_top = -3.0
 offset_right = 40.0
