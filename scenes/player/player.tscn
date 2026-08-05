@@ -2,7 +2,12 @@
 
 [ext_resource type="Script" uid="uid://cnfceli0sqmx8" path="res://scripts/player.gd" id="1_8afob"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_v801n"]
+radius = 11.0
+
 [node name="Player" type="CharacterBody2D" unique_id=11883185]
+collision_layer = 2
+motion_mode = 1
 script = ExtResource("1_8afob")
 
 [node name="Body" type="ColorRect" parent="." unique_id=634829100]
@@ -12,3 +17,6 @@ offset_right = 14.0
 offset_bottom = 14.0
 mouse_filter = 2
 color = Color(1, 1, 0.56078434, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=785688393]
+shape = SubResource("CircleShape2D_v801n")

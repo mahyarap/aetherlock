@@ -2,10 +2,13 @@
 
 [ext_resource type="Script" uid="uid://d00nrmy1ckri7" path="res://scripts/bootstrap.gd" id="1_tp0nq"]
 [ext_resource type="PackedScene" uid="uid://ciubecxrc6egk" path="res://scenes/world/energy_beacon.tscn" id="2_4rpqk"]
+[ext_resource type="PackedScene" uid="uid://dt1mos7mgha3u" path="res://scenes/world/graybox_room.tscn" id="2_6wp35"]
 [ext_resource type="PackedScene" uid="uid://cvmbxw1ya6brt" path="res://scenes/player/player.tscn" id="3_r8rhy"]
 
 [node name="Bootstrap" type="Node2D" unique_id=252344105]
 script = ExtResource("1_tp0nq")
+
+[node name="GrayboxRoom" parent="." unique_id=1009863243 instance=ExtResource("2_6wp35")]
 
 [node name="StatusLabel" type="Label" parent="." unique_id=1789101184]
 offset_left = 32.0
@@ -37,6 +40,7 @@ inactive_color = Color(1, 1, 1, 1)
 
 [node name="Player" parent="." unique_id=11883185 instance=ExtResource("3_r8rhy")]
 position = Vector2(640, 560)
+motion_mode = 0
 
 [connection signal="state_changed" from="BeaconA" to="." method="_on_beacon_state_changed"]
 [connection signal="state_changed" from="BeaconB" to="." method="_on_beacon_state_changed"]

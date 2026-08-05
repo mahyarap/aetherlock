@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://dt1mos7mgha3u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v801n"]
+size = Vector2(960, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w3cfk"]
+size = Vector2(960, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_njivo"]
+size = Vector2(32, 480)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0qkhc"]
+size = Vector2(32, 480)
+
+[node name="GrayboxRoom" type="Node2D" unique_id=1009863243]
+
+[node name="Background" type="ColorRect" parent="." unique_id=1467418006]
+offset_left = 160.0
+offset_top = 120.0
+offset_right = 1120.0
+offset_bottom = 600.0
+mouse_filter = 2
+color = Color(0.08627451, 0.11764706, 0.14117648, 1)
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=1735157505]
+
+[node name="TopVisual" type="ColorRect" parent="Walls" unique_id=304413934]
+offset_left = 160.0
+offset_top = 104.0
+offset_right = 1120.0
+offset_bottom = 136.0
+color = Color(0.34509805, 0.3882353, 0.41960785, 1)
+
+[node name="BottomVisual" type="ColorRect" parent="Walls" unique_id=581984324]
+offset_left = 160.0
+offset_top = 584.0
+offset_right = 1120.0
+offset_bottom = 616.0
+color = Color(0.34509805, 0.3882353, 0.41960785, 1)
+
+[node name="LeftVisual" type="ColorRect" parent="Walls" unique_id=1638740328]
+offset_left = 144.0
+offset_top = 120.0
+offset_right = 176.0
+offset_bottom = 600.0
+color = Color(0.34509805, 0.3882353, 0.41960785, 1)
+
+[node name="RightVisual" type="ColorRect" parent="Walls" unique_id=458387930]
+offset_left = 1104.0
+offset_top = 120.0
+offset_right = 1136.0
+offset_bottom = 600.0
+color = Color(0.34509805, 0.3882353, 0.41960785, 1)
+
+[node name="TopCollision" type="CollisionShape2D" parent="Walls" unique_id=848080859]
+position = Vector2(640, 120)
+shape = SubResource("RectangleShape2D_v801n")
+
+[node name="BottomCollision" type="CollisionShape2D" parent="Walls" unique_id=1029256183]
+position = Vector2(640, 600)
+shape = SubResource("RectangleShape2D_w3cfk")
+
+[node name="LeftCollision" type="CollisionShape2D" parent="Walls" unique_id=1537248064]
+position = Vector2(160, 360)
+shape = SubResource("RectangleShape2D_njivo")
+
+[node name="RightCollision" type="CollisionShape2D" parent="Walls" unique_id=1535516614]
+position = Vector2(1120, 360)
+shape = SubResource("RectangleShape2D_0qkhc")
