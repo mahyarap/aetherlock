@@ -31,6 +31,9 @@ offset_bottom = 3.0
 mouse_filter = 2
 color = Color(0.9607843, 0.7254902, 0.25882354, 1)
 
+[node name="Muzzle" type="Marker2D" parent="AimPivot" unique_id=1088830180]
+position = Vector2(44, 0)
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1658960610]
 zoom = Vector2(2, 2)
 limit_left = 144
@@ -40,3 +43,6 @@ limit_bottom = 616
 limit_smoothed = true
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
+
+[node name="AttackCooldown" type="Timer" parent="." unique_id=1275720847]
+one_shot = true
