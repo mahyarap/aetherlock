@@ -18,10 +18,11 @@ func _physics_process(delta: float) -> void:
 	
 func _on_body_entered(_body: Node2D) -> void:
 	queue_free()
-	
-func on_lifetime_timeout() -> void:
-	queue_free()
 
 
 func _on_lifetime_timeout() -> void:
-	pass # Replace with function body.
+	queue_free()
+
+
+func _on_hitbox_hit_confirmed() -> void:
+	queue_free()

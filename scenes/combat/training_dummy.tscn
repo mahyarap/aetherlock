@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bymviho5qasfx"]
+
+[ext_resource type="Script" uid="uid://dd44gdfpob506" path="res://scripts/training_dummy.gd" id="1_ksws4"]
+[ext_resource type="Script" uid="uid://dggpyfkbwgnea" path="res://scripts/health_component.gd" id="2_bbp2r"]
+[ext_resource type="Script" uid="uid://ch0b2bixol704" path="res://scripts/hurtbox.gd" id="3_lkirg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v801n"]
+radius = 18.0
+
+[node name="TrainingDummy" type="Node2D" unique_id=1343045164]
+script = ExtResource("1_ksws4")
+
+[node name="Body" type="ColorRect" parent="." unique_id=341362976]
+offset_left = -18.0
+offset_top = -18.0
+offset_right = 18.0
+offset_bottom = 18.0
+mouse_filter = 2
+
+[node name="HealthLabel" type="Label" parent="." unique_id=1033644241]
+offset_left = -24.0
+offset_top = -44.0
+offset_right = 16.0
+offset_bottom = -21.0
+
+[node name="HealthComponent" type="Node" parent="." unique_id=264722804]
+script = ExtResource("2_bbp2r")
+metadata/_custom_type_script = "uid://dggpyfkbwgnea"
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1022145471 node_paths=PackedStringArray("health_component")]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("3_lkirg")
+health_component = NodePath("../HealthComponent")
+metadata/_custom_type_script = "uid://ch0b2bixol704"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=152974000]
+shape = SubResource("CircleShape2D_v801n")

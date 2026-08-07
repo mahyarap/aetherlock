@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://ciubecxrc6egk" path="res://scenes/world/energy_beacon.tscn" id="2_4rpqk"]
 [ext_resource type="PackedScene" uid="uid://dt1mos7mgha3u" path="res://scenes/world/graybox_room.tscn" id="2_6wp35"]
 [ext_resource type="PackedScene" uid="uid://cvmbxw1ya6brt" path="res://scenes/player/player.tscn" id="3_r8rhy"]
+[ext_resource type="PackedScene" uid="uid://bymviho5qasfx" path="res://scenes/combat/training_dummy.tscn" id="5_f8pek"]
 
 [node name="Bootstrap" type="Node2D" unique_id=252344105]
 script = ExtResource("1_tp0nq")
@@ -42,6 +43,10 @@ inactive_color = Color(1, 1, 1, 1)
 
 [node name="Player" parent="." unique_id=11883185 instance=ExtResource("3_r8rhy")]
 position = Vector2(640, 560)
+fire_cooldown = 0.8
+
+[node name="TrainingDummy" parent="." unique_id=1343045164 instance=ExtResource("5_f8pek")]
+position = Vector2(960, 480)
 
 [connection signal="state_changed" from="BeaconA" to="." method="_on_beacon_state_changed"]
 [connection signal="state_changed" from="BeaconB" to="." method="_on_beacon_state_changed"]
