@@ -25,6 +25,7 @@ offset_bottom = -21.0
 
 [node name="HealthComponent" type="Node" parent="." unique_id=264722804]
 script = ExtResource("2_bbp2r")
+max_health = 5
 metadata/_custom_type_script = "uid://dggpyfkbwgnea"
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=1022145471 node_paths=PackedStringArray("health_component")]
