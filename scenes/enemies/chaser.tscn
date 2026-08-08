@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://doqexf415s776"]
+
+[ext_resource type="Script" uid="uid://bvnf2nqv61qrk" path="res://scripts/chaser.gd" id="1_3pbm7"]
+[ext_resource type="Script" uid="uid://dggpyfkbwgnea" path="res://scripts/health_component.gd" id="2_krcqs"]
+[ext_resource type="Script" uid="uid://ch0b2bixol704" path="res://scripts/hurtbox.gd" id="3_hm5ih"]
+[ext_resource type="Script" uid="uid://bwqp8i5yatj3n" path="res://scripts/hitbox.gd" id="4_tkoxo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v801n"]
+radius = 13.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w3cfk"]
+radius = 13.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_njivo"]
+radius = 500.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0qkhc"]
+radius = 20.0
+
+[node name="Chaser" type="CharacterBody2D" unique_id=100696084]
+collision_layer = 32
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_3pbm7")
+
+[node name="Body" type="ColorRect" parent="." unique_id=166815432]
+offset_left = -14.0
+offset_top = -14.0
+offset_right = 14.0
+offset_bottom = 14.0
+color = Color(0.9690346, 0.3814391, 0.53751653, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=181565203]
+shape = SubResource("CircleShape2D_v801n")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=440031380]
+script = ExtResource("2_krcqs")
+metadata/_custom_type_script = "uid://dggpyfkbwgnea"
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1243913615 node_paths=PackedStringArray("health_component")]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("3_hm5ih")
+health_component = NodePath("../HealthComponent")
+metadata/_custom_type_script = "uid://ch0b2bixol704"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=14675082]
+shape = SubResource("CircleShape2D_w3cfk")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1902121265]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1228778622]
+shape = SubResource("CircleShape2D_njivo")
+
+[node name="ContactHitbox" type="Area2D" parent="." unique_id=565830061]
+collision_layer = 8
+collision_mask = 16
+script = ExtResource("4_tkoxo")
+metadata/_custom_type_script = "uid://bwqp8i5yatj3n"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactHitbox" unique_id=335372840]
+shape = SubResource("CircleShape2D_0qkhc")
+
+[node name="DamageCooldown" type="Timer" parent="." unique_id=909227165]
+one_shot = true

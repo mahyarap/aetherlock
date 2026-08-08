@@ -2,7 +2,7 @@ extends Node2D
 
 @export var flash_color: Color = Color.WHITE
 @export_range(0.05, 0.3, 0.01) var hit_duration: float = 0.12
-@export_range(0.0, 12.0, 1.0) var visual_recoil: float = 60.0
+@export_range(0.0, 12.0, 1.0) var visual_recoil: float = 6.0
 
 @onready var body: ColorRect = $Body
 @onready var health_label: Label = $HealthLabel
