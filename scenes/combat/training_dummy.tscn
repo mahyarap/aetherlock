@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dggpyfkbwgnea" path="res://scripts/health_component.gd" id="2_bbp2r"]
 [ext_resource type="Script" uid="uid://ch0b2bixol704" path="res://scripts/hurtbox.gd" id="3_lkirg"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_v801n"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_6t3w6"]
 radius = 18.0
 
 [node name="TrainingDummy" type="Node2D" unique_id=1343045164]
@@ -15,7 +15,9 @@ offset_left = -18.0
 offset_top = -18.0
 offset_right = 18.0
 offset_bottom = 18.0
+pivot_offset = Vector2(18, 18)
 mouse_filter = 2
+color = Color(0.84705883, 0.35686275, 0.25882354, 1)
 
 [node name="HealthLabel" type="Label" parent="." unique_id=1033644241]
 offset_left = -24.0
@@ -36,4 +38,4 @@ health_component = NodePath("../HealthComponent")
 metadata/_custom_type_script = "uid://ch0b2bixol704"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=152974000]
-shape = SubResource("CircleShape2D_v801n")
+shape = SubResource("CircleShape2D_6t3w6")

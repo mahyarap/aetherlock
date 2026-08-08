@@ -15,5 +15,8 @@ func _on_area_entered(area: Area2D) -> void:
 			return
 
 	var hurtbox: Hurtbox = area as Hurtbox
-	hurtbox.receive_damage(damage)
-	hit_confirmed.emit()
+	var hit_direction: Vector2 = global_position.direction_to(
+		hurtbox.global_position
+	)
+	if hurtbox.receive_damage(damage, hit_direction):
+		hit_confirmed.emit()
