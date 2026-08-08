@@ -97,7 +97,7 @@ func _on_damage_received(
 
 func _on_died() -> void:
 	velocity = Vector2.ZERO
-	#set_physics_process(false)
+	set_physics_process(false)
 
 	set_deferred("collision_layer", 0)
 	set_deferred("collision_mask", 0)
