@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export_range(1, 20, 1) var contact_damage: int = 1
 @export_range(0.2, 2.0, 0.1) var contact_cooldown: float = 0.8
 @export_range(16.0, 64.0, 1.0) var stop_distance: float = 28.0
+@export_range(4.0, 64.0, 1.0) var repath_distance: float = 16.0
 
 @onready var body: ColorRect = $Body
 @onready var health_component: HealthComponent = $HealthComponent
@@ -11,11 +12,15 @@ extends CharacterBody2D
 @onready var detection_area: Area2D = $DetectionArea
 @onready var contact_hitbox: Area2D = $ContactHitbox
 @onready var damage_timer: Timer = $DamageCooldown
+@onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 
 var target_body: CharacterBody2D
 var contact_target: Hurtbox
 var base_body_color: Color
 var hit_tween: Tween
+
+var last_target_position: Vector2
+var has_navigation_target: bool = false
 
 
 func _ready() -> void:
@@ -31,24 +36,54 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if is_instance_valid(target_body):
-			var distance: float = global_position.distance_to(
-					target_body.global_position
+	velocity = Vector2.ZERO
+
+	if (
+			is_instance_valid(target_body)
+			and _navigation_map_is_ready()
+	):
+		_update_navigation_target()
+		var target_distance: float = global_position.distance_to(
+			target_body.global_position
+		)
+
+		if (
+			target_distance > stop_distance
+			and not navigation_agent.is_navigation_finished()
+		):
+			var next_path_position: Vector2 = (
+				navigation_agent.get_next_path_position()
 			)
 
-			if distance > stop_distance:
-					velocity = global_position.direction_to(
-							target_body.global_position
-					) * move_speed
-			else:
-					velocity = Vector2.ZERO
-	else:
-			velocity = Vector2.ZERO
+			velocity = global_position.direction_to(
+				next_path_position
+			) * move_speed
 
 	move_and_slide()
 
 	if is_instance_valid(contact_target) and damage_timer.is_stopped():
-			_deal_contact_damage()
+		_deal_contact_damage()
+			
+
+func _navigation_map_is_ready() -> bool:
+	var navigation_map: RID = navigation_agent.get_navigation_map()
+
+	return (
+			NavigationServer2D.map_get_iteration_id(navigation_map) > 0
+	)
+
+
+func _update_navigation_target() -> void:
+	var current_target_position: Vector2 = target_body.global_position
+
+	if (
+		not has_navigation_target
+		or last_target_position.distance_to(current_target_position)
+			>= repath_distance
+	):
+		navigation_agent.target_position = current_target_position
+		last_target_position = current_target_position
+		has_navigation_target = true
 
 
 func _deal_contact_damage() -> void:
@@ -63,11 +98,14 @@ func _deal_contact_damage() -> void:
 func _on_detection_body_entered(body_entered: Node2D) -> void:
 	if body_entered is CharacterBody2D:
 			target_body = body_entered as CharacterBody2D
+			has_navigation_target = false
 
 
 func _on_detection_body_exited(body_exited: Node2D) -> void:
 	if body_exited == target_body:
 			target_body = null
+			has_navigation_target = false
+			navigation_agent.target_position = global_position
 
 
 func _on_contact_area_entered(area: Area2D) -> void:

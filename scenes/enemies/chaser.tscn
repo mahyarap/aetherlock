@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bvnf2nqv61qrk" path="res://scripts/chaser.gd" id="1_3pbm7"]
 [ext_resource type="Script" uid="uid://dggpyfkbwgnea" path="res://scripts/health_component.gd" id="2_krcqs"]
 [ext_resource type="Script" uid="uid://ch0b2bixol704" path="res://scripts/hurtbox.gd" id="3_hm5ih"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_v801n"]
 radius = 13.0
 
@@ -61,3 +62,9 @@ shape = SubResource("CircleShape2D_0qkhc")
 
 [node name="DamageCooldown" type="Timer" parent="." unique_id=909227165]
 one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1399159667]
+path_desired_distance = 8.0
+target_desired_distance = 28.0
+path_max_distance = 48.0
+radius = 13.0

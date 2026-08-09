@@ -15,6 +15,11 @@ size = Vector2(32, 480)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dbnld"]
 size = Vector2(160, 32)
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_2sdxv"]
+vertices = PackedVector2Array(900, 390, 1090, 570, 190, 570, 700, 390, 1090, 150, 900, 330, 190, 150, 700, 330)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 1, 0, 5), PackedInt32Array(6, 4, 5, 7), PackedInt32Array(3, 2, 6, 7)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(180, 140, 180, 580, 1100, 580, 1100, 140), PackedVector2Array(710, 340, 890, 340, 890, 380, 710, 380)])
+
 [node name="GrayboxRoom" type="Node2D" unique_id=1009863243]
 
 [node name="Background" type="ColorRect" parent="." unique_id=1467418006]
@@ -86,3 +91,6 @@ color = Color(0.34509805, 0.3882353, 0.41960785, 1)
 [node name="BenchCollision" type="CollisionShape2D" parent="Walls" unique_id=1588703914]
 position = Vector2(800, 360)
 shape = SubResource("RectangleShape2D_dbnld")
+
+[node name="NavigationRegion" type="NavigationRegion2D" parent="." unique_id=1005659648]
+navigation_polygon = SubResource("NavigationPolygon_2sdxv")
