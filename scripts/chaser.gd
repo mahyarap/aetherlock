@@ -1,5 +1,12 @@
 extends CharacterBody2D
 
+enum State {
+	IDLE,
+	CHASE,
+	ATTACK,
+	DEAD,
+}
+
 @export_range(20.0, 400.0, 10.0) var move_speed: float = 110.0
 @export_range(1, 20, 1) var contact_damage: int = 1
 @export_range(0.2, 2.0, 0.1) var contact_cooldown: float = 0.8
@@ -13,14 +20,15 @@ extends CharacterBody2D
 @onready var contact_hitbox: Area2D = $ContactHitbox
 @onready var damage_timer: Timer = $DamageCooldown
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var state_label: Label = $StateLabel
 
 var target_body: CharacterBody2D
 var contact_target: Hurtbox
 var base_body_color: Color
 var hit_tween: Tween
-
 var last_target_position: Vector2
 var has_navigation_target: bool = false
+var current_state: State = State.IDLE
 
 
 func _ready() -> void:
@@ -33,37 +41,92 @@ func _ready() -> void:
 	contact_hitbox.area_exited.connect(_on_contact_area_exited)
 	hurtbox.damage_received.connect(_on_damage_received)
 	health_component.died.connect(_on_died)
+	
+	_update_state_label()
 
 
 func _physics_process(_delta: float) -> void:
-	velocity = Vector2.ZERO
+	match current_state:
+		State.IDLE:
+			velocity = Vector2.ZERO
+		State.CHASE:
+			_process_chase_state()
+		State.ATTACK:
+			_process_attack_state()
+		State.DEAD:
+			velocity = Vector2.ZERO
+	if current_state != State.DEAD:
+		move_and_slide()
+		
+func _process_chase_state() -> void:
+	if not is_instance_valid(target_body):
+			_change_state(State.IDLE)
+			return
+
+	if is_instance_valid(contact_target):
+			_change_state(State.ATTACK)
+			return
+
+	if not _navigation_map_is_ready():
+			velocity = Vector2.ZERO
+			return
+
+	_update_navigation_target()
+
+	var target_distance: float = global_position.distance_to(
+			target_body.global_position
+	)
 
 	if (
-		is_instance_valid(target_body)
-		and _navigation_map_is_ready()
+			target_distance <= stop_distance
+			or navigation_agent.is_navigation_finished()
 	):
-		_update_navigation_target()
-		var target_distance: float = global_position.distance_to(
-			target_body.global_position
-		)
+			velocity = Vector2.ZERO
+			return
 
-		if (
-			target_distance > stop_distance
-			and not navigation_agent.is_navigation_finished()
-		):
-			var next_path_position: Vector2 = (
-				navigation_agent.get_next_path_position()
-			)
+	var next_path_position: Vector2 = (
+			navigation_agent.get_next_path_position()
+	)
 
-			velocity = global_position.direction_to(
-				next_path_position
-			) * move_speed
+	velocity = global_position.direction_to(
+			next_path_position
+	) * move_speed
+	
+func _process_attack_state() -> void:
+	velocity = Vector2.ZERO
 
-	move_and_slide()
+	if not is_instance_valid(target_body):
+			_change_state(State.IDLE)
+			return
 
-	if is_instance_valid(contact_target) and damage_timer.is_stopped():
-		_deal_contact_damage()
-			
+	if not is_instance_valid(contact_target):
+			_change_state(State.CHASE)
+			return
+
+	if damage_timer.is_stopped():
+			_deal_contact_damage()
+
+
+func _change_state(next_state: State) -> void:
+	if current_state == next_state:
+			return
+
+	current_state = next_state
+	_update_state_label()
+
+	match current_state:
+			State.IDLE:
+					velocity = Vector2.ZERO
+					has_navigation_target = false
+			State.CHASE:
+					has_navigation_target = false
+			State.ATTACK:
+					velocity = Vector2.ZERO
+			State.DEAD:
+					velocity = Vector2.ZERO
+
+func _update_state_label() -> void:
+	state_label.text = str(State.keys()[current_state])
 
 func _navigation_map_is_ready() -> bool:
 	var navigation_map: RID = navigation_agent.get_navigation_map()
@@ -96,26 +159,44 @@ func _deal_contact_damage() -> void:
 
 
 func _on_detection_body_entered(body_entered: Node2D) -> void:
+	if current_state == State.DEAD:
+		return
 	if body_entered is CharacterBody2D:
 		target_body = body_entered as CharacterBody2D
 		has_navigation_target = false
+		_change_state(State.CHASE)
 
 
 func _on_detection_body_exited(body_exited: Node2D) -> void:
+	if current_state == State.DEAD:
+		return
 	if body_exited == target_body:
 		target_body = null
+		contact_target = null
 		has_navigation_target = false
 		navigation_agent.target_position = global_position
+		_change_state(State.IDLE)
 
 
 func _on_contact_area_entered(area: Area2D) -> void:
+	if current_state == State.DEAD:
+		return
 	if area is Hurtbox:
 		contact_target = area as Hurtbox
+		if current_state == State.CHASE:
+			_change_state(State.ATTACK)
 
 
 func _on_contact_area_exited(area: Area2D) -> void:
-	if area == contact_target:
-		contact_target = null
+	if current_state == State.DEAD:
+		return
+	if area != contact_target:
+		return
+	contact_target = null
+	if is_instance_valid(target_body):
+		_change_state(State.CHASE)
+	else:
+		_change_state(State.IDLE)
 
 
 func _on_damage_received(
@@ -134,9 +215,8 @@ func _on_damage_received(
 
 
 func _on_died() -> void:
-	velocity = Vector2.ZERO
+	_change_state(State.DEAD)
 	set_physics_process(false)
-
 	set_deferred("collision_layer", 0)
 	set_deferred("collision_mask", 0)
 	hurtbox.set_deferred("monitorable", false)

@@ -68,3 +68,10 @@ path_desired_distance = 8.0
 target_desired_distance = 28.0
 path_max_distance = 48.0
 radius = 13.0
+
+[node name="StateLabel" type="Label" parent="." unique_id=1604822924]
+offset_left = -28.0
+offset_top = -44.0
+offset_right = 12.0
+offset_bottom = -21.0
+text = "IDLE"
