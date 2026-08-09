@@ -127,6 +127,18 @@ func _change_state(next_state: State) -> void:
 
 func _update_state_label() -> void:
 	state_label.text = str(State.keys()[current_state])
+	match current_state:
+		State.IDLE :
+			state_label.modulate = Color(0.51, 0.499, 0.481, 1.0)
+		State.ATTACK :
+			state_label.modulate = Color(1.0, 0.0, 0.0, 1.0)
+		State.DEAD :
+			state_label.modulate = Color(0.228, 0.228, 0.211, 0.882)
+		State.CHASE :
+			state_label.modulate = Color(1.0, 0.995, 0.299, 1.0)
+		
+			
+
 
 func _navigation_map_is_ready() -> bool:
 	var navigation_map: RID = navigation_agent.get_navigation_map()
