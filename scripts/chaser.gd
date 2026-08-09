@@ -39,8 +39,8 @@ func _physics_process(_delta: float) -> void:
 	velocity = Vector2.ZERO
 
 	if (
-			is_instance_valid(target_body)
-			and _navigation_map_is_ready()
+		is_instance_valid(target_body)
+		and _navigation_map_is_ready()
 	):
 		_update_navigation_target()
 		var target_distance: float = global_position.distance_to(
@@ -69,7 +69,7 @@ func _navigation_map_is_ready() -> bool:
 	var navigation_map: RID = navigation_agent.get_navigation_map()
 
 	return (
-			NavigationServer2D.map_get_iteration_id(navigation_map) > 0
+		NavigationServer2D.map_get_iteration_id(navigation_map) > 0
 	)
 
 
@@ -88,7 +88,7 @@ func _update_navigation_target() -> void:
 
 func _deal_contact_damage() -> void:
 	var hit_direction: Vector2 = global_position.direction_to(
-			contact_target.global_position
+		contact_target.global_position
 	)
 
 	contact_target.receive_damage(contact_damage, hit_direction)
@@ -97,25 +97,25 @@ func _deal_contact_damage() -> void:
 
 func _on_detection_body_entered(body_entered: Node2D) -> void:
 	if body_entered is CharacterBody2D:
-			target_body = body_entered as CharacterBody2D
-			has_navigation_target = false
+		target_body = body_entered as CharacterBody2D
+		has_navigation_target = false
 
 
 func _on_detection_body_exited(body_exited: Node2D) -> void:
 	if body_exited == target_body:
-			target_body = null
-			has_navigation_target = false
-			navigation_agent.target_position = global_position
+		target_body = null
+		has_navigation_target = false
+		navigation_agent.target_position = global_position
 
 
 func _on_contact_area_entered(area: Area2D) -> void:
 	if area is Hurtbox:
-			contact_target = area as Hurtbox
+		contact_target = area as Hurtbox
 
 
 func _on_contact_area_exited(area: Area2D) -> void:
 	if area == contact_target:
-			contact_target = null
+		contact_target = null
 
 
 func _on_damage_received(
@@ -123,10 +123,10 @@ func _on_damage_received(
 	_hit_direction: Vector2,
 ) -> void:
 	if health_component.current_health == 0:
-			return
+		return
 
 	if hit_tween != null and hit_tween.is_valid():
-			hit_tween.kill()
+		hit_tween.kill()
 
 	body.color = Color.WHITE
 	hit_tween = create_tween()
@@ -143,7 +143,7 @@ func _on_died() -> void:
 	contact_hitbox.set_deferred("monitoring", false)
 
 	if hit_tween != null and hit_tween.is_valid():
-			hit_tween.kill()
+		hit_tween.kill()
 
 	var death_tween: Tween = create_tween()
 	death_tween.set_parallel(true)
