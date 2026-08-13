@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cvmbxw1ya6brt" path="res://scenes/player/player.tscn" id="3_r8rhy"]
 [ext_resource type="PackedScene" uid="uid://bymviho5qasfx" path="res://scenes/combat/training_dummy.tscn" id="5_f8pek"]
 [ext_resource type="PackedScene" uid="uid://doqexf415s776" path="res://scenes/enemies/chaser.tscn" id="6_emuka"]
+[ext_resource type="PackedScene" uid="uid://b8ac8lt7m6iqx" path="res://scenes/enemies/shooter.tscn" id="7_882s7"]
 
 [node name="Bootstrap" type="Node2D" unique_id=252344105]
 script = ExtResource("1_tp0nq")
@@ -51,6 +52,9 @@ position = Vector2(960, 480)
 
 [node name="Chaser" parent="." unique_id=100696084 instance=ExtResource("6_emuka")]
 position = Vector2(320, 240)
+
+[node name="Shooter" parent="." unique_id=1546799298 instance=ExtResource("7_882s7")]
+position = Vector2(300, 200)
 
 [connection signal="state_changed" from="BeaconA" to="." method="_on_beacon_state_changed"]
 [connection signal="state_changed" from="BeaconB" to="." method="_on_beacon_state_changed"]

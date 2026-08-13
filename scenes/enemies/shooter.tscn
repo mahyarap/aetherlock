@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://b8ac8lt7m6iqx"]
+
+[ext_resource type="Script" uid="uid://db45rpx4f8r72" path="res://scripts/shooter.gd" id="1_1uapl"]
+[ext_resource type="Script" uid="uid://dggpyfkbwgnea" path="res://scripts/health_component.gd" id="2_onxcn"]
+[ext_resource type="Script" uid="uid://ch0b2bixol704" path="res://scripts/hurtbox.gd" id="3_yif4x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v801n"]
+radius = 13.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_njivo"]
+radius = 13.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0qkhc"]
+radius = 500.0
+
+[node name="Shooter" type="CharacterBody2D" unique_id=1546799298]
+collision_layer = 32
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_1uapl")
+
+[node name="Body" type="ColorRect" parent="." unique_id=1384271993]
+offset_left = -14.0
+offset_top = -14.0
+offset_right = 14.0
+offset_bottom = 14.0
+color = Color(0.14117648, 0.6117647, 0.85882354, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=845571664]
+shape = SubResource("CircleShape2D_v801n")
+
+[node name="AimPivot" type="Node2D" parent="." unique_id=82822946]
+
+[node name="Barrel" type="ColorRect" parent="AimPivot" unique_id=630656854]
+offset_left = 16.0
+offset_top = -3.0
+offset_right = 32.0
+offset_bottom = 3.0
+mouse_filter = 2
+
+[node name="Muzzle" type="Marker2D" parent="AimPivot" unique_id=681606730]
+position = Vector2(34, 0)
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1676104326]
+script = ExtResource("2_onxcn")
+max_health = 4
+metadata/_custom_type_script = "uid://dggpyfkbwgnea"
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1402083876 node_paths=PackedStringArray("health_component")]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("3_yif4x")
+health_component = NodePath("../HealthComponent")
+metadata/_custom_type_script = "uid://ch0b2bixol704"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=437492635]
+shape = SubResource("CircleShape2D_njivo")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1407555868]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1836288525]
+shape = SubResource("CircleShape2D_0qkhc")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1632258386]
+path_desired_distance = 8.0
+target_desired_distance = 16.0
+path_max_distance = 48.0
+radius = 13.0
+
+[node name="ShootCooldown" type="Timer" parent="." unique_id=582964102]
+one_shot = true
+
+[node name="StateLabel" type="Label" parent="." unique_id=2133270724]
+offset_left = -36.0
+offset_top = -44.0
+offset_right = 4.0
+offset_bottom = -21.0
+text = "IDLE"
