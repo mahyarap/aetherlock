@@ -5,10 +5,17 @@ signal damage_received(amount: int, hit_direction: Vector2)
 
 @export var health_component: HealthComponent
 
+var is_invulnerable: bool = false
+
+func set_invulnerable(value: bool) -> void:
+	is_invulnerable = value
 
 func receive_damage(amount: int, hit_direction: Vector2) -> bool:
 	if health_component == null:
 		push_warning("%s has no HealthComponent" % name)
+		return false
+
+	if is_invulnerable:
 		return false
 
 	var damage_applied: bool = health_component.take_damage(amount)

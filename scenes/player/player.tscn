@@ -73,3 +73,9 @@ metadata/_custom_type_script = "uid://ch0b2bixol704"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=883763572]
 shape = SubResource("CircleShape2D_w3cfk")
+
+[node name="DodgeDuration" type="Timer" parent="." unique_id=237023766]
+one_shot = true
+
+[node name="DodgeCooldown" type="Timer" parent="." unique_id=2023714394]
+one_shot = true

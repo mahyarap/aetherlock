@@ -122,7 +122,6 @@ func _process_patrol_state() -> void:
 		global_position.distance_to(waypoint_position)
 		<= waypoint_reach_distance
 	):
-		print("GGGGGGGG")
 		current_waypoint_index = (
 			(current_waypoint_index + 1)
 			% waypoint_positions.size()
