@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://ceug0aw1k7lft"]
+
+[ext_resource type="Script" uid="uid://dggpyfkbwgnea" path="res://scripts/health_component.gd" id="1_6exem"]
+[ext_resource type="Script" uid="uid://dalonubg8d3fm" path="res://scripts/patroller.gd" id="1_8ii5g"]
+[ext_resource type="Script" uid="uid://ch0b2bixol704" path="res://scripts/hurtbox.gd" id="2_8ii5g"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xigeo"]
+radius = 13.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q4sje"]
+radius = 13.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lp7bv"]
+radius = 280.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_amgr2"]
+radius = 20.0
+
+[node name="Patroller" type="CharacterBody2D" unique_id=612154100]
+collision_layer = 32
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_8ii5g")
+
+[node name="Body" type="ColorRect" parent="." unique_id=1588340784]
+offset_left = -14.0
+offset_top = -14.0
+offset_right = 14.0
+offset_bottom = 14.0
+color = Color(0.38431373, 0.7647059, 0.4392157, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=776735551]
+shape = SubResource("CircleShape2D_xigeo")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1852479172]
+script = ExtResource("1_6exem")
+metadata/_custom_type_script = "uid://dggpyfkbwgnea"
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=703169160 node_paths=PackedStringArray("health_component")]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("2_8ii5g")
+health_component = NodePath("../HealthComponent")
+metadata/_custom_type_script = "uid://ch0b2bixol704"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=799864401]
+shape = SubResource("CircleShape2D_q4sje")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=455218066]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1354339863]
+shape = SubResource("CircleShape2D_lp7bv")
+
+[node name="ContactHitbox" type="Area2D" parent="." unique_id=1346122904]
+collision_layer = 64
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactHitbox" unique_id=1897584412]
+shape = SubResource("CircleShape2D_amgr2")
+
+[node name="DamageCooldown" type="Timer" parent="." unique_id=2034909391]
+one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1074951289]
+path_desired_distance = 8.0
+target_desired_distance = 28.0
+path_max_distance = 48.0
+radius = 13.0
+
+[node name="PatrolPoints" type="Node2D" parent="." unique_id=731219667]
+
+[node name="WaypointA" type="Marker2D" parent="PatrolPoints" unique_id=1272509711]
+
+[node name="WaypointB" type="Marker2D" parent="PatrolPoints" unique_id=856940775]
+position = Vector2(0, 300)
+
+[node name="WaypointC" type="Marker2D" parent="PatrolPoints" unique_id=1359810426]
+position = Vector2(-380, 300)
+
+[node name="WaypointD" type="Marker2D" parent="PatrolPoints" unique_id=963751778]
+position = Vector2(-380, 0)
+
+[node name="StateLabel" type="Label" parent="." unique_id=1188692806]
+offset_left = -36.0
+offset_top = -44.0
+offset_right = 36.0
+offset_bottom = -21.0
+text = "PATROL"
