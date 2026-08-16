@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://eemmo24iatpt"]
+
+[ext_resource type="Script" uid="uid://cc3sxt3vt408m" path="res://scripts/game_room.gd" id="1_ax0bm"]
+[ext_resource type="PackedScene" uid="uid://dt1mos7mgha3u" path="res://scenes/world/graybox_room.tscn" id="2_7nvr1"]
+[ext_resource type="PackedScene" uid="uid://ciubecxrc6egk" path="res://scenes/world/energy_beacon.tscn" id="3_llion"]
+[ext_resource type="PackedScene" uid="uid://bymviho5qasfx" path="res://scenes/combat/training_dummy.tscn" id="4_no71q"]
+[ext_resource type="PackedScene" uid="uid://doqexf415s776" path="res://scenes/enemies/chaser.tscn" id="5_mpjlh"]
+[ext_resource type="PackedScene" uid="uid://b8ac8lt7m6iqx" path="res://scenes/enemies/shooter.tscn" id="6_eqav1"]
+[ext_resource type="PackedScene" uid="uid://ceug0aw1k7lft" path="res://scenes/enemies/patroller.tscn" id="7_gcwcv"]
+
+[node name="LaboratoryRoom" type="Node2D" unique_id=628267040 node_paths=PackedStringArray("player_spawn")]
+script = ExtResource("1_ax0bm")
+player_spawn = NodePath("SpawnPoints/PlayerSpawn")
+
+[node name="GrayboxRoom" parent="." unique_id=1009863243 instance=ExtResource("2_7nvr1")]
+
+[node name="Beacons" type="Node2D" parent="." unique_id=543890790]
+
+[node name="BeaconA" parent="Beacons" unique_id=631188114 instance=ExtResource("3_llion")]
+position = Vector2(320, 360)
+
+[node name="BeaconB" parent="Beacons" unique_id=629655597 instance=ExtResource("3_llion")]
+position = Vector2(480, 360)
+starts_active = false
+pulse_interval = 0.6000000000000001
+
+[node name="BeaconC" parent="Beacons" unique_id=1045914770 instance=ExtResource("3_llion")]
+position = Vector2(640, 360)
+pulse_interval = 1.5
+active_color = Color(0.9463988, 0.672188, 0.8633414, 1)
+inactive_color = Color(1, 1, 1, 1)
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1896935221]
+
+[node name="TrainingDummy" parent="Enemies" unique_id=1343045164 instance=ExtResource("4_no71q")]
+position = Vector2(960, 480)
+
+[node name="Chaser" parent="Enemies" unique_id=100696084 instance=ExtResource("5_mpjlh")]
+position = Vector2(320, 240)
+
+[node name="Shooter" parent="Enemies" unique_id=1546799298 instance=ExtResource("6_eqav1")]
+position = Vector2(300, 200)
+
+[node name="Patroller" parent="Enemies" unique_id=612154100 instance=ExtResource("7_gcwcv")]
+position = Vector2(980, 200)
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=305373609]
+
+[node name="PlayerSpawn" type="Marker2D" parent="SpawnPoints" unique_id=234006226]
+position = Vector2(640, 560)
+
+[connection signal="state_changed" from="Beacons/BeaconA" to="." method="_on_beacon_state_changed"]
+[connection signal="state_changed" from="Beacons/BeaconB" to="." method="_on_beacon_state_changed"]
+[connection signal="state_changed" from="Beacons/BeaconC" to="." method="_on_beacon_state_changed"]

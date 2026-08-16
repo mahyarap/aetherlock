@@ -1,18 +1,11 @@
 [gd_scene format=3 uid="uid://bv72arbl3y81a"]
 
 [ext_resource type="Script" uid="uid://d00nrmy1ckri7" path="res://scripts/bootstrap.gd" id="1_tp0nq"]
-[ext_resource type="PackedScene" uid="uid://ciubecxrc6egk" path="res://scenes/world/energy_beacon.tscn" id="2_4rpqk"]
-[ext_resource type="PackedScene" uid="uid://dt1mos7mgha3u" path="res://scenes/world/graybox_room.tscn" id="2_6wp35"]
+[ext_resource type="PackedScene" uid="uid://eemmo24iatpt" path="res://scenes/rooms/laboratory_room.tscn" id="3_6wp35"]
 [ext_resource type="PackedScene" uid="uid://cvmbxw1ya6brt" path="res://scenes/player/player.tscn" id="3_r8rhy"]
-[ext_resource type="PackedScene" uid="uid://bymviho5qasfx" path="res://scenes/combat/training_dummy.tscn" id="5_f8pek"]
-[ext_resource type="PackedScene" uid="uid://doqexf415s776" path="res://scenes/enemies/chaser.tscn" id="6_emuka"]
-[ext_resource type="PackedScene" uid="uid://b8ac8lt7m6iqx" path="res://scenes/enemies/shooter.tscn" id="7_882s7"]
-[ext_resource type="PackedScene" uid="uid://ceug0aw1k7lft" path="res://scenes/enemies/patroller.tscn" id="8_fbyva"]
 
 [node name="Bootstrap" type="Node2D" unique_id=252344105]
 script = ExtResource("1_tp0nq")
-
-[node name="GrayboxRoom" parent="." unique_id=1009863243 instance=ExtResource("2_6wp35")]
 
 [node name="DebugUI" type="CanvasLayer" parent="." unique_id=124409610]
 
@@ -30,36 +23,8 @@ offset_right = 79.0
 offset_bottom = 87.0
 text = "WASD"
 
-[node name="BeaconA" parent="." unique_id=631188114 instance=ExtResource("2_4rpqk")]
-position = Vector2(320, 360)
-
-[node name="BeaconB" parent="." unique_id=1987913763 instance=ExtResource("2_4rpqk")]
-position = Vector2(480, 360)
-starts_active = false
-pulse_interval = 0.6000000000000001
-
-[node name="BeaconC" parent="." unique_id=401851639 instance=ExtResource("2_4rpqk")]
-position = Vector2(640, 360)
-pulse_interval = 1.5
-active_color = Color(0.9463988, 0.672188, 0.8633414, 1)
-inactive_color = Color(1, 1, 1, 1)
+[node name="LaboratoryRoom" parent="." unique_id=628267040 instance=ExtResource("3_6wp35")]
 
 [node name="Player" parent="." unique_id=11883185 instance=ExtResource("3_r8rhy")]
 position = Vector2(640, 560)
 fire_cooldown = 0.8
-
-[node name="TrainingDummy" parent="." unique_id=1343045164 instance=ExtResource("5_f8pek")]
-position = Vector2(960, 480)
-
-[node name="Chaser" parent="." unique_id=100696084 instance=ExtResource("6_emuka")]
-position = Vector2(320, 240)
-
-[node name="Shooter" parent="." unique_id=1546799298 instance=ExtResource("7_882s7")]
-position = Vector2(300, 200)
-
-[node name="Patroller" parent="." unique_id=612154100 instance=ExtResource("8_fbyva")]
-position = Vector2(980, 200)
-
-[connection signal="state_changed" from="BeaconA" to="." method="_on_beacon_state_changed"]
-[connection signal="state_changed" from="BeaconB" to="." method="_on_beacon_state_changed"]
-[connection signal="state_changed" from="BeaconC" to="." method="_on_beacon_state_changed"]
