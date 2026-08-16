@@ -44,7 +44,7 @@ func _ready() -> void:
 	detection_area.body_exited.connect(_on_detection_body_exited)
 	hurtbox.damage_received.connect(_on_damage_received)
 	health_component.died.connect(_on_died)
-	
+
 	_update_state_label()
 
 
@@ -63,7 +63,7 @@ func _physics_process(_delta: float) -> void:
 			velocity = Vector2.ZERO
 	if current_state != State.DEAD:
 		move_and_slide()
-		
+
 func _process_reposition_state() -> void:
 	if not is_instance_valid(target_body):
 			_change_state(State.IDLE)
@@ -88,7 +88,7 @@ func _process_reposition_state() -> void:
 	else:
 		# NOTE: distance > maximum_distance
 		desired_position = target_body.global_position
-	
+
 	desired_position = NavigationServer2D.map_get_closest_point(
 		navigation_agent.get_navigation_map(),
 		desired_position,
@@ -106,7 +106,7 @@ func _process_reposition_state() -> void:
 	velocity = global_position.direction_to(
 		next_path_position
 	) * move_speed
-	
+
 func _process_attack_state() -> void:
 	velocity = Vector2.ZERO
 
@@ -182,7 +182,7 @@ func _update_state_label() -> void:
 			state_label.modulate = Color(0.228, 0.228, 0.211, 0.882)
 		State.REPOSITION :
 			state_label.modulate = Color(1.0, 0.995, 0.299, 1.0)
-	
+
 func _navigation_map_is_ready() -> bool:
 	var navigation_map: RID = navigation_agent.get_navigation_map()
 

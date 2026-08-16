@@ -10,7 +10,8 @@ const PROJECTILE_SCENE: PackedScene = preload(
 @export_range(0.05, 0.5, 0.01) var dodge_duration: float = 0.18
 @export_range(0.1, 2.0, 0.05) var dodge_cooldown: float = 0.75
 
-@onready var body: ColorRect = $Body
+@onready var visuals: Node2D = $Visuals
+@onready var body: ColorRect = $Visuals/Body
 @onready var health_label: Label = $HealthLabel
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var hurtbox: Hurtbox = $Hurtbox
@@ -19,6 +20,7 @@ const PROJECTILE_SCENE: PackedScene = preload(
 @onready var attack_timer: Timer = $AttackCooldown
 @onready var dodge_duration_timer: Timer = $DodgeDuration
 @onready var dodge_cooldown_timer: Timer = $DodgeCooldown
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var aim_direction: Vector2 = Vector2.RIGHT
 var last_move_direction: Vector2 = Vector2.RIGHT
@@ -46,6 +48,8 @@ func _ready() -> void:
 			health_component.current_health,
 			health_component.max_health,
 	)
+
+	animation_player.play(&"idle")
 
 
 func _process(_delta: float) -> void:
@@ -81,6 +85,7 @@ func _physics_process(_delta: float) -> void:
 			velocity = dodge_direction * dodge_speed
 	else:
 			velocity = input_direction * move_speed
+			_update_movement_animation(input_direction)
 
 	move_and_slide()
 
@@ -95,6 +100,7 @@ func _start_dodge(input_direction: Vector2) -> void:
 	hurtbox.set_invulnerable(true)
 	body.modulate.a = 0.45
 
+	animation_player.play(&"dodge", 0.03)
 	dodge_duration_timer.start()
 	dodge_cooldown_timer.start()
 
@@ -103,6 +109,22 @@ func _on_dodge_duration_timeout() -> void:
 	is_dodging = false
 	hurtbox.set_invulnerable(false)
 	body.modulate.a = 1.0
+
+
+func _update_movement_animation(
+	input_direction: Vector2,
+) -> void:
+	if input_direction == Vector2.ZERO:
+			_play_animation(&"idle")
+	else:
+			_play_animation(&"move")
+
+
+func _play_animation(animation_name: StringName) -> void:
+	if animation_player.current_animation == animation_name:
+			return
+
+	animation_player.play(animation_name, 0.08)
 
 
 func _update_aim() -> void:
@@ -171,6 +193,9 @@ func _on_died() -> void:
 	set_process(false)
 	set_physics_process(false)
 	hurtbox.set_deferred("monitorable", false)
+
+	animation_player.stop()
+	visuals.scale = Vector2.ONE
 
 	if hit_tween != null and hit_tween.is_valid():
 			hit_tween.kill()

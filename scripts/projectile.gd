@@ -12,10 +12,10 @@ func initialize(
 	global_position = spawn_position
 	direction = travel_direction.normalized()
 	rotation = direction.angle()
-	
+
 func _physics_process(delta: float) -> void:
 	global_position += direction * speed * delta
-	
+
 func _on_body_entered(_body: Node2D) -> void:
 	queue_free()
 
