@@ -7,6 +7,10 @@
 [node name="Bootstrap" type="Node2D" unique_id=252344105]
 script = ExtResource("1_tp0nq")
 
+[node name="RoomContainer" type="Node2D" parent="." unique_id=1894286222]
+
+[node name="LaboratoryRoom" parent="RoomContainer" unique_id=628267040 instance=ExtResource("3_6wp35")]
+
 [node name="DebugUI" type="CanvasLayer" parent="." unique_id=124409610]
 
 [node name="StatusLabel" type="Label" parent="DebugUI" unique_id=1789101184]
@@ -22,8 +26,6 @@ offset_top = 64.0
 offset_right = 79.0
 offset_bottom = 87.0
 text = "WASD"
-
-[node name="LaboratoryRoom" parent="." unique_id=628267040 instance=ExtResource("3_6wp35")]
 
 [node name="Player" parent="." unique_id=11883185 instance=ExtResource("3_r8rhy")]
 position = Vector2(640, 560)

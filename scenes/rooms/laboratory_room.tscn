@@ -7,9 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://doqexf415s776" path="res://scenes/enemies/chaser.tscn" id="5_mpjlh"]
 [ext_resource type="PackedScene" uid="uid://b8ac8lt7m6iqx" path="res://scenes/enemies/shooter.tscn" id="6_eqav1"]
 [ext_resource type="PackedScene" uid="uid://ceug0aw1k7lft" path="res://scenes/enemies/patroller.tscn" id="7_gcwcv"]
+[ext_resource type="PackedScene" uid="uid://biqaw6mvqkyes" path="res://scenes/world/room_door.tscn" id="8_7nvr1"]
 
 [node name="LaboratoryRoom" type="Node2D" unique_id=628267040 node_paths=PackedStringArray("player_spawn")]
 script = ExtResource("1_ax0bm")
+room_title = "Laboratory"
 player_spawn = NodePath("SpawnPoints/PlayerSpawn")
 
 [node name="GrayboxRoom" parent="." unique_id=1009863243 instance=ExtResource("2_7nvr1")]
@@ -49,6 +51,13 @@ position = Vector2(980, 200)
 [node name="PlayerSpawn" type="Marker2D" parent="SpawnPoints" unique_id=234006226]
 position = Vector2(640, 560)
 
+[node name="Doors" type="Node2D" parent="." unique_id=925916321]
+
+[node name="RoomDoor" parent="Doors" unique_id=1219013615 instance=ExtResource("8_7nvr1")]
+position = Vector2(1080, 360)
+destination_id = &"storage"
+
 [connection signal="state_changed" from="Beacons/BeaconA" to="." method="_on_beacon_state_changed"]
 [connection signal="state_changed" from="Beacons/BeaconB" to="." method="_on_beacon_state_changed"]
 [connection signal="state_changed" from="Beacons/BeaconC" to="." method="_on_beacon_state_changed"]
+[connection signal="transition_requested" from="Doors/RoomDoor" to="." method="_on_door_transition_requested"]

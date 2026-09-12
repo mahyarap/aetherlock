@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://biqaw6mvqkyes"]
+
+[ext_resource type="Script" uid="uid://djtprw7oxybpa" path="res://scripts/room_door.gd" id="1_mboal"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v801n"]
+size = Vector2(32, 64)
+
+[node name="RoomDoor" type="Area2D" unique_id=1219013615]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_mboal")
+
+[node name="Visual" type="ColorRect" parent="." unique_id=1440289005]
+offset_left = -16.0
+offset_top = -32.0
+offset_right = 16.0
+offset_bottom = 32.0
+color = Color(0.4392157, 1, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1797521558]
+shape = SubResource("RectangleShape2D_v801n")

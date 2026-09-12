@@ -5,6 +5,9 @@ extends Area2D
 
 var direction: Vector2 = Vector2.RIGHT
 
+func _ready() -> void:
+	add_to_group(&"room_transient")
+
 func initialize(
 	spawn_position: Vector2,
 	travel_direction: Vector2,
