@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cc3sxt3vt408m" path="res://scripts/game_room.gd" id="1_bor10"]
 [ext_resource type="PackedScene" uid="uid://dt1mos7mgha3u" path="res://scenes/world/graybox_room.tscn" id="2_gg4l5"]
 [ext_resource type="PackedScene" uid="uid://biqaw6mvqkyes" path="res://scenes/world/room_door.tscn" id="3_cwxnk"]
+[ext_resource type="PackedScene" uid="uid://0fl4q37nhyav" path="res://scenes/hazards/acid_pool.tscn" id="4_gg4l5"]
 
 [node name="StorageRoom" type="Node2D" unique_id=236803362 node_paths=PackedStringArray("player_spawn")]
 script = ExtResource("1_bor10")
@@ -22,5 +23,10 @@ destination_id = &"laboratory"
 
 [node name="PlayerSpawn" type="Marker2D" parent="SpawnPoints" unique_id=1200443182]
 position = Vector2(240, 360)
+
+[node name="Hazards" type="Node2D" parent="." unique_id=878570942]
+
+[node name="AcidPool" parent="Hazards" unique_id=1402584545 instance=ExtResource("4_gg4l5")]
+position = Vector2(640, 480)
 
 [connection signal="transition_requested" from="Doors/DoorToLaboratory" to="." method="_on_door_transition_requested"]
