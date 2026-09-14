@@ -5,8 +5,12 @@
 [ext_resource type="PackedScene" uid="uid://biqaw6mvqkyes" path="res://scenes/world/room_door.tscn" id="3_cwxnk"]
 [ext_resource type="PackedScene" uid="uid://0fl4q37nhyav" path="res://scenes/hazards/acid_pool.tscn" id="4_gg4l5"]
 [ext_resource type="Script" uid="uid://b8i7oniwakei4" path="res://scripts/interaction_area.gd" id="5_cwxnk"]
+[ext_resource type="Script" uid="uid://b2x5wxvvftkv7" path="res://scripts/relay_puzzle.gd" id="5_wxn30"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_v801n"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w3cfk"]
+size = Vector2(36, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_njivo"]
 size = Vector2(36, 48)
 
 [node name="StorageRoom" type="Node2D" unique_id=236803362 node_paths=PackedStringArray("player_spawn")]
@@ -33,29 +37,70 @@ position = Vector2(240, 360)
 [node name="AcidPool" parent="Hazards" unique_id=1402584545 instance=ExtResource("4_gg4l5")]
 position = Vector2(640, 480)
 
-[node name="Interactables" type="Node2D" parent="." unique_id=141251715]
+[node name="Puzzles" type="Node2D" parent="." unique_id=141251715]
 
-[node name="TestConsole" type="Node2D" parent="Interactables" unique_id=77971977]
+[node name="RelayPuzzle" type="Node2D" parent="Puzzles" unique_id=51643218 node_paths=PackedStringArray("relay_alpha", "relay_beta", "relay_alpha_visual", "relay_beta_visual", "result_indicator")]
 position = Vector2(960, 480)
+script = ExtResource("5_wxn30")
+relay_alpha = NodePath("RelayAlpha/InteractionArea")
+relay_beta = NodePath("RelayBeta/InteractionArea")
+relay_alpha_visual = NodePath("RelayAlpha/Visual")
+relay_beta_visual = NodePath("RelayBeta/Visual")
+result_indicator = NodePath("ResultIndicator")
 
-[node name="Visual" type="ColorRect" parent="Interactables/TestConsole" unique_id=495706975]
+[node name="RelayAlpha" type="Node2D" parent="Puzzles/RelayPuzzle" unique_id=511093424]
+position = Vector2(-64, 0)
+
+[node name="Visual" type="ColorRect" parent="Puzzles/RelayPuzzle/RelayAlpha" unique_id=2053679502]
 offset_left = -18.0
 offset_top = -24.0
 offset_right = 18.0
 offset_bottom = 24.0
 mouse_filter = 2
 color = Color(0.29803923, 0.5529412, 0.85882354, 1)
+metadata/_edit_use_anchors_ = true
 
-[node name="InteractionArea" type="Area2D" parent="Interactables/TestConsole" unique_id=492625058]
+[node name="InteractionArea" type="Area2D" parent="Puzzles/RelayPuzzle/RelayAlpha" unique_id=1188632705]
 collision_layer = 256
 collision_mask = 0
 monitoring = false
 script = ExtResource("5_cwxnk")
-prompt_text = "Inspect console"
+prompt_text = "Activate Alpha"
 metadata/_custom_type_script = "uid://b8i7oniwakei4"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TestConsole/InteractionArea" unique_id=162556459]
-shape = SubResource("RectangleShape2D_v801n")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puzzles/RelayPuzzle/RelayAlpha/InteractionArea" unique_id=1760742643]
+shape = SubResource("RectangleShape2D_w3cfk")
+
+[node name="RelayBeta" type="Node2D" parent="Puzzles/RelayPuzzle" unique_id=1238762028]
+position = Vector2(64, 0)
+
+[node name="Visual" type="ColorRect" parent="Puzzles/RelayPuzzle/RelayBeta" unique_id=1193711377]
+offset_left = -18.0
+offset_top = -24.0
+offset_right = 18.0
+offset_bottom = 24.0
+mouse_filter = 2
+color = Color(0.29803923, 0.5529412, 0.85882354, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="InteractionArea" type="Area2D" parent="Puzzles/RelayPuzzle/RelayBeta" unique_id=294660362]
+collision_layer = 256
+collision_mask = 0
+monitoring = false
+script = ExtResource("5_cwxnk")
+prompt_text = "Activate Beta"
+metadata/_custom_type_script = "uid://b8i7oniwakei4"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puzzles/RelayPuzzle/RelayBeta/InteractionArea" unique_id=1762535100]
+shape = SubResource("RectangleShape2D_njivo")
+
+[node name="ResultIndicator" type="ColorRect" parent="Puzzles/RelayPuzzle" unique_id=116307658]
+offset_left = -32.0
+offset_top = -72.0
+offset_right = 32.0
+offset_bottom = -52.0
+mouse_filter = 2
+color = Color(0.54901963, 0.18039216, 0.2, 1)
 
 [connection signal="transition_requested" from="Doors/DoorToLaboratory" to="." method="_on_door_transition_requested"]
-[connection signal="interacted" from="Interactables/TestConsole/InteractionArea" to="." method="_on_console_interacted"]
+[connection signal="status_changed" from="Puzzles/RelayPuzzle" to="." method="_on_puzzle_status_changed"]
