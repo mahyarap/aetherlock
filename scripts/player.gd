@@ -21,6 +21,8 @@ const PROJECTILE_SCENE: PackedScene = preload(
 @onready var dodge_duration_timer: Timer = $DodgeDuration
 @onready var dodge_cooldown_timer: Timer = $DodgeCooldown
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var interaction_detector: Area2D = $InteractionDetector
+@onready var interaction_prompt: Label = $InteractionPrompt
 
 var aim_direction: Vector2 = Vector2.RIGHT
 var last_move_direction: Vector2 = Vector2.RIGHT
@@ -29,6 +31,7 @@ var dodge_direction: Vector2 = Vector2.RIGHT
 var is_dodging: bool = false
 var base_body_color: Color
 var hit_tween: Tween
+var nearby_interactions: Array[InteractionArea] = []
 
 
 func _ready() -> void:
@@ -43,17 +46,24 @@ func _ready() -> void:
 	health_component.health_changed.connect(_on_health_changed)
 	health_component.died.connect(_on_died)
 	hurtbox.damage_received.connect(_on_damage_received)
+	interaction_detector.area_entered.connect(
+			_on_interaction_area_entered
+	)
+	interaction_detector.area_exited.connect(
+			_on_interaction_area_exited
+	)
 
 	_update_health_label(
 			health_component.current_health,
 			health_component.max_health,
 	)
-
+	interaction_prompt.hide()
 	animation_player.play(&"idle")
 
 
 func _process(_delta: float) -> void:
 	_update_aim()
+	_update_interaction()
 
 	if (
 			not is_dodging
@@ -88,6 +98,66 @@ func _physics_process(_delta: float) -> void:
 			_update_movement_animation(input_direction)
 
 	move_and_slide()
+
+
+func _update_interaction() -> void:
+	var closest_interaction := _get_closest_interaction()
+
+	if closest_interaction == null:
+			interaction_prompt.hide()
+			return
+
+	interaction_prompt.text = "[E] %s" % (
+			closest_interaction.prompt_text
+	)
+	interaction_prompt.show()
+
+	if (
+			not is_dodging
+			and Input.is_action_just_pressed("interact")
+	):
+			closest_interaction.interact()
+
+
+func _get_closest_interaction() -> InteractionArea:
+	var closest_interaction: InteractionArea = null
+	var closest_distance: float = INF
+
+	for index in range(
+			nearby_interactions.size() - 1,
+			-1,
+			-1,
+	):
+			var interaction := nearby_interactions[index]
+
+			if not is_instance_valid(interaction):
+					nearby_interactions.remove_at(index)
+					continue
+
+			var distance := global_position.distance_squared_to(
+					interaction.global_position
+			)
+			if distance < closest_distance:
+					closest_distance = distance
+					closest_interaction = interaction
+
+	return closest_interaction
+
+
+func _on_interaction_area_entered(area: Area2D) -> void:
+	if area is not InteractionArea:
+			return
+
+	var interaction := area as InteractionArea
+	if not nearby_interactions.has(interaction):
+			nearby_interactions.append(interaction)
+
+
+func _on_interaction_area_exited(area: Area2D) -> void:
+	if area is not InteractionArea:
+			return
+
+	nearby_interactions.erase(area as InteractionArea)
 
 
 func _start_dodge(input_direction: Vector2) -> void:
@@ -193,6 +263,9 @@ func _on_died() -> void:
 	set_process(false)
 	set_physics_process(false)
 	hurtbox.set_deferred("monitorable", false)
+	interaction_detector.set_deferred("monitoring", false)
+	interaction_prompt.hide()
+	nearby_interactions.clear()
 
 	animation_player.stop()
 	visuals.scale = Vector2.ONE

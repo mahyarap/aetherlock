@@ -22,6 +22,10 @@ func _on_beacon_state_changed(is_active: bool) -> void:
 	else:
 		status_changed.emit("Beacon inactive")
 
+func _on_console_interacted() -> void:
+	status_changed.emit(
+		"Console inspected: power routing unavailable"
+	)
 
 func _on_door_transition_requested(destination_id: StringName) -> void:
 	transition_requested.emit(destination_id)
