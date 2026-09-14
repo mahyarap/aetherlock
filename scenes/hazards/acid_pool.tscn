@@ -6,8 +6,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v801n"]
 size = Vector2(160, 72)
 
-[node name="AcidPool" type="Node2D" unique_id=1402584545]
+[node name="AcidPool" type="Node2D" unique_id=1402584545 node_paths=PackedStringArray("hitbox")]
 script = ExtResource("1_dtffx")
+hitbox = NodePath("Hitbox")
 
 [node name="Visual" type="ColorRect" parent="." unique_id=711940514]
 offset_left = -80.0
