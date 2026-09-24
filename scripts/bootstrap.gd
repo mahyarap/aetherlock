@@ -8,7 +8,7 @@ const STORAGE_ROOM_SCENE: PackedScene = preload(
 )
 
 @onready var room_container: Node2D = $RoomContainer
-@onready var player: CharacterBody2D = $Player
+@onready var player: Player = $Player
 @onready var status_label: Label = $DebugUI/StatusLabel
 @onready var controls_label: Label = $DebugUI/ControlsLabel
 
@@ -28,7 +28,16 @@ func _connect_current_room() -> void:
 	current_room.transition_requested.connect(
 		_on_room_transition_requested
 	)
+	current_room.energy_key_awarded.connect(
+		_on_energy_key_awarded
+	)
 	status_label.text = "Aetherlock: %s" % current_room.room_title
+
+func _on_energy_key_awarded() -> void:
+	if player.grant_energy_key():
+		status_label.text = (
+			"Energy key acquired. Storage exit unlocked."
+		)
 
 func _on_room_transition_requested(
 	destination_id: StringName,

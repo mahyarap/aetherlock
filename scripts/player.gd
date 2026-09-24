@@ -1,4 +1,7 @@
+class_name Player
 extends CharacterBody2D
+
+signal energy_key_changed(has_energy_key: bool)
 
 const PROJECTILE_SCENE: PackedScene = preload(
     "res://scenes/combat/projectile.tscn"
@@ -28,6 +31,7 @@ var aim_direction: Vector2 = Vector2.RIGHT
 var last_move_direction: Vector2 = Vector2.RIGHT
 var dodge_direction: Vector2 = Vector2.RIGHT
 
+var has_energy_key: bool = false
 var is_dodging: bool = false
 var base_body_color: Color
 var hit_tween: Tween
@@ -253,6 +257,13 @@ func _update_health_label(
 			max_health,
 	]
 
+func grant_energy_key() -> bool:
+	if has_energy_key:
+		return false
+
+	has_energy_key = true
+	energy_key_changed.emit(has_energy_key)
+	return true
 
 func _on_died() -> void:
 	is_dodging = false

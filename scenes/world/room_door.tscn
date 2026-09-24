@@ -5,10 +5,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v801n"]
 size = Vector2(32, 64)
 
-[node name="RoomDoor" type="Area2D" unique_id=1219013615]
+[node name="RoomDoor" type="Area2D" unique_id=1219013615 node_paths=PackedStringArray("visual")]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_mboal")
+visual = NodePath("Visual")
 
 [node name="Visual" type="ColorRect" parent="." unique_id=1440289005]
 offset_left = -16.0
