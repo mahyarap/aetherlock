@@ -57,7 +57,14 @@ position = Vector2(640, 560)
 position = Vector2(1080, 360)
 destination_id = &"storage"
 
+[node name="DoorToSentinel" parent="Doors" unique_id=887552581 instance=ExtResource("8_7nvr1")]
+position = Vector2(200, 360)
+destination_id = &"sentinel"
+requires_energy_key = true
+
 [connection signal="state_changed" from="Beacons/BeaconA" to="." method="_on_beacon_state_changed"]
 [connection signal="state_changed" from="Beacons/BeaconB" to="." method="_on_beacon_state_changed"]
 [connection signal="state_changed" from="Beacons/BeaconC" to="." method="_on_beacon_state_changed"]
 [connection signal="transition_requested" from="Doors/RoomDoor" to="." method="_on_door_transition_requested"]
+[connection signal="access_denied" from="Doors/DoorToSentinel" to="." method="_on_door_access_denied"]
+[connection signal="transition_requested" from="Doors/DoorToSentinel" to="." method="_on_door_transition_requested"]

@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://p46gera2qoe"]
+
+[ext_resource type="Script" uid="uid://dggpyfkbwgnea" path="res://scripts/health_component.gd" id="1_fw2mp"]
+[ext_resource type="Script" uid="uid://ch0b2bixol704" path="res://scripts/hurtbox.gd" id="2_w7yvr"]
+[ext_resource type="Script" uid="uid://fw723os8pk6p" path="res://scripts/sentinel.gd" id="3_sentinel"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v801n"]
+radius = 24.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w3cfk"]
+radius = 24.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_njivo"]
+radius = 600.0
+
+[node name="Sentinel" type="CharacterBody2D" unique_id=1843345254]
+collision_layer = 32
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("3_sentinel")
+
+[node name="Body" type="ColorRect" parent="." unique_id=2141172029]
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+color = Color(0.53333336, 0.26666668, 0.73333335, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=620842714]
+shape = SubResource("CircleShape2D_v801n")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1100517158]
+script = ExtResource("1_fw2mp")
+max_health = 12
+metadata/_custom_type_script = "uid://dggpyfkbwgnea"
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=561121913 node_paths=PackedStringArray("health_component")]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("2_w7yvr")
+health_component = NodePath("../HealthComponent")
+metadata/_custom_type_script = "uid://ch0b2bixol704"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=446856491]
+shape = SubResource("CircleShape2D_w3cfk")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=118910520]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1711284735]
+shape = SubResource("CircleShape2D_njivo")
+
+[node name="AimPivot" type="Node2D" parent="." unique_id=947593399]
+
+[node name="Muzzle" type="Marker2D" parent="AimPivot" unique_id=1707539657]
+position = Vector2(32, 0)
+
+[node name="WindupTimer" type="Timer" parent="." unique_id=753686416]
+one_shot = true
+
+[node name="VolleyCooldown" type="Timer" parent="." unique_id=1810929799]
+one_shot = true
+
+[node name="StateLabel" type="Label" parent="." unique_id=758479426]
+offset_left = -55.0
+offset_top = -65.0
+offset_right = 55.0
+offset_bottom = -41.0

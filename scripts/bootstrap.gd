@@ -1,10 +1,13 @@
 extends Node2D
 
 const LABORATORY_ROOM_SCENE: PackedScene = preload(
-	"res://scenes/rooms/laboratory_room.tscn"
+    "res://scenes/rooms/laboratory_room.tscn"
 )
 const STORAGE_ROOM_SCENE: PackedScene = preload(
-	"res://scenes/rooms/storage_room.tscn"
+    "res://scenes/rooms/storage_room.tscn"
+)
+const SENTINEL_ROOM_SCENE: PackedScene = preload(
+    "res://scenes/rooms/sentinel_room.tscn"
 )
 
 @onready var room_container: Node2D = $RoomContainer
@@ -15,6 +18,7 @@ const STORAGE_ROOM_SCENE: PackedScene = preload(
 var current_room: GameRoom
 var transition_in_progress := false
 
+
 func _ready() -> void:
 	current_room = $RoomContainer/LaboratoryRoom as GameRoom
 	_connect_current_room()
@@ -22,6 +26,7 @@ func _ready() -> void:
 
 	controls_label.text = "Move: WASD | Aim: Mouse | Dodge: Space"
 	print("Bootstrap scene ready")
+
 
 func _connect_current_room() -> void:
 	current_room.status_changed.connect(_on_room_status_changed)
@@ -33,27 +38,30 @@ func _connect_current_room() -> void:
 	)
 	status_label.text = "Aetherlock: %s" % current_room.room_title
 
+
 func _on_energy_key_awarded() -> void:
 	if player.grant_energy_key():
 		status_label.text = (
-			"Energy key acquired. Storage exit unlocked."
+            "Energy key acquired. Storage exit unlocked."
 		)
+
 
 func _on_room_transition_requested(
 	destination_id: StringName,
 ) -> void:
 	if transition_in_progress:
-			return
+		return
 
 	var next_scene := _get_room_scene(destination_id)
 
 	if next_scene == null:
-			push_warning(
-					"Unknown room destination: %s" % destination_id
-			)
-			return
+		push_warning(
+			"Unknown room destination: %s" % destination_id
+		)
+		return
 
 	await _change_room(next_scene)
+
 
 func _get_room_scene(destination_id: StringName) -> PackedScene:
 	match destination_id:
@@ -61,8 +69,11 @@ func _get_room_scene(destination_id: StringName) -> PackedScene:
 			return LABORATORY_ROOM_SCENE
 		&"storage":
 			return STORAGE_ROOM_SCENE
+		&"sentinel":
+			return SENTINEL_ROOM_SCENE
 		_:
 			return null
+
 
 func _change_room(next_scene: PackedScene) -> void:
 	var next_room := next_scene.instantiate() as GameRoom
@@ -92,6 +103,7 @@ func _change_room(next_scene: PackedScene) -> void:
 	player.set_process(true)
 	player.set_physics_process(true)
 	transition_in_progress = false
+
 
 func _on_room_status_changed(message: String) -> void:
 	status_label.text = message

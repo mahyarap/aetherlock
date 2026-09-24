@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dqsyha341l55c"]
+
+[ext_resource type="Script" uid="uid://cc3sxt3vt408m" path="res://scripts/game_room.gd" id="1_0mtfr"]
+[ext_resource type="PackedScene" uid="uid://dt1mos7mgha3u" path="res://scenes/world/graybox_room.tscn" id="2_rbcet"]
+[ext_resource type="PackedScene" uid="uid://p46gera2qoe" path="res://scenes/enemies/sentinel.tscn" id="3_rdw0c"]
+[ext_resource type="PackedScene" uid="uid://biqaw6mvqkyes" path="res://scenes/world/room_door.tscn" id="4_8ghcs"]
+
+[node name="SentinelRoom" type="Node2D" unique_id=945820638 node_paths=PackedStringArray("player_spawn")]
+script = ExtResource("1_0mtfr")
+room_title = "Sentinel Chamber"
+player_spawn = NodePath("SpawnPoints/PlayerSpawn")
+metadata/_custom_type_script = "uid://cc3sxt3vt408m"
+
+[node name="GrayboxRoom" parent="." unique_id=1009863243 instance=ExtResource("2_rbcet")]
+
+[node name="Enemies" type="Node2D" parent="." unique_id=176210376]
+
+[node name="Sentinel" parent="Enemies" unique_id=1964714751 instance=ExtResource("3_rdw0c")]
+position = Vector2(640, 240)
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=253289835]
+
+[node name="PlayerSpawn" type="Marker2D" parent="SpawnPoints" unique_id=1240823785]
+position = Vector2(240, 360)
+
+[node name="Doors" type="Node2D" parent="." unique_id=986786968]
+
+[node name="DoorToLaboratory" parent="Doors" unique_id=1219013615 instance=ExtResource("4_8ghcs")]
+position = Vector2(200, 360)
+destination_id = &"laboratory"
+
+[connection signal="defeated" from="Enemies/Sentinel" to="." method="_on_sentinel_defeated"]
+[connection signal="transition_requested" from="Doors/DoorToLaboratory" to="." method="_on_door_transition_requested"]

@@ -23,14 +23,24 @@ func _on_beacon_state_changed(is_active: bool) -> void:
 	else:
 		status_changed.emit("Beacon inactive")
 
+
 func _on_puzzle_status_changed(message: String) -> void:
 	status_changed.emit(message)
+
 
 func _on_puzzle_completed() -> void:
 	energy_key_awarded.emit()
 
+
+func _on_sentinel_defeated() -> void:
+	status_changed.emit("Sentinel defeated.")
+
+
 func _on_door_access_denied(message: String) -> void:
 	status_changed.emit(message)
 
-func _on_door_transition_requested(destination_id: StringName) -> void:
+
+func _on_door_transition_requested(
+	destination_id: StringName,
+) -> void:
 	transition_requested.emit(destination_id)
