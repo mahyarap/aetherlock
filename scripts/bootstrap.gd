@@ -11,9 +11,8 @@ const SENTINEL_ROOM_SCENE: PackedScene = preload(
 )
 
 @onready var room_container: Node2D = $RoomContainer
+@onready var hud: GameHUD = $HUD
 @onready var player: Player = $Player
-@onready var status_label: Label = $DebugUI/StatusLabel
-@onready var controls_label: Label = $DebugUI/ControlsLabel
 
 var current_room: GameRoom
 var transition_in_progress := false
@@ -21,27 +20,29 @@ var transition_in_progress := false
 
 func _ready() -> void:
 	current_room = $RoomContainer/LaboratoryRoom as GameRoom
+	hud.bind_player(player)
 	_connect_current_room()
 	player.global_position = current_room.get_player_spawn_position()
 
-	controls_label.text = "Move: WASD | Aim: Mouse | Dodge: Space"
 	print("Bootstrap scene ready")
 
 
 func _connect_current_room() -> void:
-	current_room.status_changed.connect(_on_room_status_changed)
+	current_room.status_changed.connect(
+		_on_room_status_changed
+	)
 	current_room.transition_requested.connect(
 		_on_room_transition_requested
 	)
 	current_room.energy_key_awarded.connect(
 		_on_energy_key_awarded
 	)
-	status_label.text = "Aetherlock: %s" % current_room.room_title
+	hud.show_room(current_room.room_title)
 
 
 func _on_energy_key_awarded() -> void:
 	if player.grant_energy_key():
-		status_label.text = (
+		hud.show_status(
             "Energy key acquired. Storage exit unlocked."
 		)
 
@@ -106,4 +107,4 @@ func _change_room(next_scene: PackedScene) -> void:
 
 
 func _on_room_status_changed(message: String) -> void:
-	status_label.text = message
+	hud.show_status(message)

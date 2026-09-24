@@ -15,7 +15,6 @@ const PROJECTILE_SCENE: PackedScene = preload(
 
 @onready var visuals: Node2D = $Visuals
 @onready var body: ColorRect = $Visuals/Body
-@onready var health_label: Label = $HealthLabel
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var aim_pivot: Node2D = $AimPivot
@@ -47,7 +46,6 @@ func _ready() -> void:
 	dodge_duration_timer.timeout.connect(
 			_on_dodge_duration_timeout
 	)
-	health_component.health_changed.connect(_on_health_changed)
 	health_component.died.connect(_on_died)
 	hurtbox.damage_received.connect(_on_damage_received)
 	interaction_detector.area_entered.connect(
@@ -57,10 +55,6 @@ func _ready() -> void:
 			_on_interaction_area_exited
 	)
 
-	_update_health_label(
-			health_component.current_health,
-			health_component.max_health,
-	)
 	interaction_prompt.hide()
 	animation_player.play(&"idle")
 
@@ -240,23 +234,6 @@ func _on_damage_received(
 			0.1,
 	)
 
-
-func _on_health_changed(
-	current_health: int,
-	max_health: int,
-) -> void:
-	_update_health_label(current_health, max_health)
-
-
-func _update_health_label(
-	current_health: int,
-	max_health: int,
-) -> void:
-	health_label.text = "%d / %d" % [
-			current_health,
-			max_health,
-	]
-
 func grant_energy_key() -> bool:
 	if has_energy_key:
 		return false
@@ -287,4 +264,3 @@ func _on_died() -> void:
 	body.color = base_body_color
 	body.modulate = Color(0.35, 0.35, 0.35, 1.0)
 	aim_pivot.visible = false
-	health_label.text = "Offline"

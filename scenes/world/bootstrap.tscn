@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d00nrmy1ckri7" path="res://scripts/bootstrap.gd" id="1_tp0nq"]
 [ext_resource type="PackedScene" uid="uid://eemmo24iatpt" path="res://scenes/rooms/laboratory_room.tscn" id="3_6wp35"]
+[ext_resource type="Script" uid="uid://gvb1ymmt1ol4" path="res://scripts/hud.gd" id="3_f8pek"]
 [ext_resource type="PackedScene" uid="uid://cvmbxw1ya6brt" path="res://scenes/player/player.tscn" id="3_r8rhy"]
 
 [node name="Bootstrap" type="Node2D" unique_id=252344105]
@@ -11,21 +12,54 @@ script = ExtResource("1_tp0nq")
 
 [node name="LaboratoryRoom" parent="RoomContainer" unique_id=628267040 instance=ExtResource("3_6wp35")]
 
-[node name="DebugUI" type="CanvasLayer" parent="." unique_id=124409610]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=124409610]
+script = ExtResource("3_f8pek")
 
-[node name="StatusLabel" type="Label" parent="DebugUI" unique_id=1789101184]
-offset_left = 32.0
-offset_top = 32.0
-offset_right = 107.0
-offset_bottom = 55.0
+[node name="TopPanel" type="Panel" parent="HUD" unique_id=230810312]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 460.0
+offset_bottom = 164.0
+mouse_filter = 2
+
+[node name="RoomLabel" type="Label" parent="HUD/TopPanel" unique_id=76643613]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 424.0
+offset_bottom = 36.0
+text = "Room"
+
+[node name="HealthLabel" type="Label" parent="HUD/TopPanel" unique_id=1758973295]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 46.0
+offset_right = 196.0
+offset_bottom = 70.0
+text = "Health"
+
+[node name="KeyLabel" type="Label" parent="HUD/TopPanel" unique_id=1758745898]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 46.0
+offset_right = 424.0
+offset_bottom = 70.0
+text = "Energy Key"
+
+[node name="StatusLabel" type="Label" parent="HUD/TopPanel" unique_id=1789101184]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 82.0
+offset_right = 424.0
+offset_bottom = 130.0
 text = "Starting..."
 
-[node name="ControlsLabel" type="Label" parent="DebugUI" unique_id=1884905799]
-offset_left = 32.0
-offset_top = 64.0
-offset_right = 79.0
-offset_bottom = 87.0
-text = "WASD"
+[node name="ControlsLabel" type="Label" parent="HUD" unique_id=1884905799]
+offset_left = 20.0
+offset_top = 680.0
+offset_right = 820.0
+offset_bottom = 704.0
+text = "WASD Move"
 
 [node name="Player" parent="." unique_id=11883185 instance=ExtResource("3_r8rhy")]
 position = Vector2(640, 560)

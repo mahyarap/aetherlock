@@ -159,12 +159,6 @@ position_smoothing_speed = 8.0
 [node name="AttackCooldown" type="Timer" parent="." unique_id=1275720847]
 one_shot = true
 
-[node name="HealthLabel" type="Label" parent="." unique_id=17627683]
-offset_left = -24.0
-offset_top = -44.0
-offset_right = 16.0
-offset_bottom = -21.0
-
 [node name="HealthComponent" type="Node" parent="." unique_id=1082898778]
 script = ExtResource("2_gmlin")
 max_health = 5
