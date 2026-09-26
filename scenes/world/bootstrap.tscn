@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://eemmo24iatpt" path="res://scenes/rooms/laboratory_room.tscn" id="3_6wp35"]
 [ext_resource type="Script" uid="uid://gvb1ymmt1ol4" path="res://scripts/hud.gd" id="3_f8pek"]
 [ext_resource type="PackedScene" uid="uid://cvmbxw1ya6brt" path="res://scenes/player/player.tscn" id="3_r8rhy"]
+[ext_resource type="Script" uid="uid://su8nin3hgeqb" path="res://scripts/pause_menu.gd" id="4_f8pek"]
 
 [node name="Bootstrap" type="Node2D" unique_id=252344105]
 script = ExtResource("1_tp0nq")
@@ -60,6 +61,65 @@ offset_top = 680.0
 offset_right = 820.0
 offset_bottom = 704.0
 text = "WASD Move"
+
+[node name="PauseMenu" type="CanvasLayer" parent="." unique_id=715227088]
+process_mode = 3
+layer = 2
+script = ExtResource("4_f8pek")
+
+[node name="Overlay" type="ColorRect" parent="PauseMenu" unique_id=1931691560]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65000004)
+
+[node name="MenuPanel" type="Panel" parent="PauseMenu/Overlay" unique_id=222007650]
+layout_mode = 0
+offset_left = 420.0
+offset_top = 180.0
+offset_right = 860.0
+offset_bottom = 540.0
+
+[node name="TitleLabel" type="Label" parent="PauseMenu/Overlay/MenuPanel" unique_id=346290275]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 416.0
+offset_bottom = 56.0
+text = "Paused"
+
+[node name="VolumeLabel" type="Label" parent="PauseMenu/Overlay/MenuPanel" unique_id=1573584283]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 80.0
+offset_right = 416.0
+offset_bottom = 104.0
+text = "Master volume"
+
+[node name="VolumeSlider" type="HSlider" parent="PauseMenu/Overlay/MenuPanel" unique_id=181228107]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 112.0
+offset_right = 416.0
+offset_bottom = 144.0
+
+[node name="FullscreenCheck" type="CheckButton" parent="PauseMenu/Overlay/MenuPanel" unique_id=1938387554]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 176.0
+offset_right = 416.0
+offset_bottom = 208.0
+text = "Fullscreen"
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/Overlay/MenuPanel" unique_id=1220498190]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 268.0
+offset_right = 320.0
+offset_bottom = 312.0
+text = "Resume"
 
 [node name="Player" parent="." unique_id=11883185 instance=ExtResource("3_r8rhy")]
 position = Vector2(640, 560)
