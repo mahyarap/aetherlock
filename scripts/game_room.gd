@@ -4,6 +4,7 @@ extends Node2D
 signal status_changed(message: String)
 signal transition_requested(destination_id: StringName)
 signal energy_key_awarded
+signal checkpoint_activated
 
 @export var room_title: String = "Room"
 @export var player_spawn: Marker2D
@@ -44,3 +45,6 @@ func _on_door_transition_requested(
 	destination_id: StringName,
 ) -> void:
 	transition_requested.emit(destination_id)
+
+func _on_checkpoint_activated() -> void:
+	checkpoint_activated.emit()

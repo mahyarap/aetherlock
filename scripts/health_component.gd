@@ -21,5 +21,14 @@ func take_damage(amount: int) -> bool:
 	health_changed.emit(current_health, max_health)
 
 	if current_health == 0:
-			died.emit()
+		died.emit()
+
 	return true
+
+
+func restore_full_health() -> void:
+	if current_health <= 0 or current_health == max_health:
+		return
+
+	current_health = max_health
+	health_changed.emit(current_health, max_health)

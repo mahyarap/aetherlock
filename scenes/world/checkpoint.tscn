@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://dugsk7pcotiyb"]
+
+[ext_resource type="Script" uid="uid://c4qrs34o5h56h" path="res://scripts/checkpoint.gd" id="1_o7lto"]
+[ext_resource type="Script" uid="uid://b8i7oniwakei4" path="res://scripts/interaction_area.gd" id="2_8ethw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v801n"]
+size = Vector2(32, 48)
+
+[node name="Checkpoint" type="Node2D" unique_id=847985120]
+script = ExtResource("1_o7lto")
+
+[node name="Visual" type="ColorRect" parent="." unique_id=1306737267]
+offset_left = -16.0
+offset_top = -24.0
+offset_right = 16.0
+offset_bottom = 24.0
+mouse_filter = 2
+color = Color(0.60784316, 1, 0.59607846, 1)
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=289933544]
+collision_layer = 256
+collision_mask = 0
+monitoring = false
+script = ExtResource("2_8ethw")
+prompt_text = "Save checkpoint"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=421717435]
+shape = SubResource("RectangleShape2D_v801n")

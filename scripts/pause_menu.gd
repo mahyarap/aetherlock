@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const SETTINGS_PATH := "user://settings.cfg"
+
 @onready var overlay: ColorRect = $Overlay
 @onready var volume_slider: HSlider = (
 	$Overlay/MenuPanel/VolumeSlider
@@ -15,6 +17,7 @@ extends CanvasLayer
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	overlay.hide()
+	_load_settings()
 
 	var master_bus: int = AudioServer.get_bus_index("Master")
 
@@ -32,15 +35,9 @@ func _ready() -> void:
 		== DisplayServer.WINDOW_MODE_FULLSCREEN
 	)
 
-	volume_slider.value_changed.connect(
-		_on_volume_changed
-	)
-	fullscreen_check.toggled.connect(
-		_on_fullscreen_toggled
-	)
-	resume_button.pressed.connect(
-		_on_resume_pressed
-	)
+	volume_slider.value_changed.connect(_on_volume_changed)
+	fullscreen_check.toggled.connect(_on_fullscreen_toggled)
+	resume_button.pressed.connect(_on_resume_pressed)
 
 
 func _input(event: InputEvent) -> void:
@@ -64,6 +61,16 @@ func _on_resume_pressed() -> void:
 
 
 func _on_volume_changed(value: float) -> void:
+	_apply_volume(value)
+	_save_settings()
+
+
+func _on_fullscreen_toggled(enabled: bool) -> void:
+	_apply_fullscreen(enabled)
+	_save_settings()
+
+
+func _apply_volume(value: float) -> void:
 	var master_bus: int = AudioServer.get_bus_index("Master")
 
 	if value <= 0.0:
@@ -77,7 +84,7 @@ func _on_volume_changed(value: float) -> void:
 	)
 
 
-func _on_fullscreen_toggled(enabled: bool) -> void:
+func _apply_fullscreen(enabled: bool) -> void:
 	if enabled:
 		DisplayServer.window_set_mode(
 			DisplayServer.WINDOW_MODE_FULLSCREEN
@@ -86,3 +93,42 @@ func _on_fullscreen_toggled(enabled: bool) -> void:
 		DisplayServer.window_set_mode(
 			DisplayServer.WINDOW_MODE_WINDOWED
 		)
+
+
+func _save_settings() -> void:
+	var config := ConfigFile.new()
+	config.set_value("audio", "volume", volume_slider.value)
+	config.set_value(
+		"display",
+		"fullscreen",
+		fullscreen_check.button_pressed
+	)
+
+	var result: Error = config.save(SETTINGS_PATH)
+
+	if result != OK:
+		push_warning("Cannot save settings: %s" % error_string(result))
+
+
+func _load_settings() -> void:
+	var config := ConfigFile.new()
+	var result: Error = config.load(SETTINGS_PATH)
+
+	if result == ERR_FILE_NOT_FOUND:
+		return
+
+	if result != OK:
+		push_warning("Cannot load settings: %s" % error_string(result))
+		return
+
+	var volume: float = clampf(
+		float(config.get_value("audio", "volume", 100.0)),
+		0.0,
+		100.0
+	)
+	var fullscreen: bool = bool(
+		config.get_value("display", "fullscreen", false)
+	)
+
+	_apply_volume(volume)
+	_apply_fullscreen(fullscreen)
