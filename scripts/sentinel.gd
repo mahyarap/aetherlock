@@ -28,6 +28,8 @@ const DEFEATED_COLOR := Color("#4cbb79")
 @onready var windup_timer: Timer = $WindupTimer
 @onready var volley_cooldown: Timer = $VolleyCooldown
 @onready var state_label: Label = $StateLabel
+@onready var windup_sound: AudioStreamPlayer2D = $WindupSound
+@onready var defeat_sound: AudioStreamPlayer2D = $DefeatSound
 
 var target: Player
 var phase: int = 1
@@ -62,6 +64,7 @@ func _physics_process(_delta: float) -> void:
 
 func _start_windup() -> void:
 	_set_state(State.WINDUP)
+	windup_sound.play()
 	windup_timer.start(0.65 if phase == 1 else 0.45)
 
 
@@ -142,6 +145,7 @@ func _on_died() -> void:
 	hurtbox.set_deferred("monitorable", false)
 	set_deferred("collision_layer", 0)
 	set_deferred("collision_mask", 0)
+	defeat_sound.play()
 	defeated.emit()
 
 

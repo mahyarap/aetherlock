@@ -16,6 +16,7 @@ const ENDING_SCENE: PackedScene = preload(
 @onready var room_container: Node2D = $RoomContainer
 @onready var hud: GameHUD = $HUD
 @onready var player: Player = $Player
+@onready var ambience: AudioStreamPlayer = $Ambience
 
 var current_room: GameRoom
 var transition_in_progress := false
@@ -27,6 +28,7 @@ func _ready() -> void:
 	current_room = $RoomContainer/LaboratoryRoom as GameRoom
 	hud.bind_player(player)
 	player.health_component.died.connect(_on_player_died)
+	ambience.finished.connect(_on_ambience_finished)
 
 	_connect_current_room()
 	player.global_position = current_room.get_player_spawn_position()
@@ -197,3 +199,6 @@ func _change_room(next_scene: PackedScene) -> void:
 
 func _on_room_status_changed(message: String) -> void:
 	hud.show_status(message)
+
+func _on_ambience_finished() -> void:
+	ambience.play()

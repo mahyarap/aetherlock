@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://gvb1ymmt1ol4" path="res://scripts/hud.gd" id="3_f8pek"]
 [ext_resource type="PackedScene" uid="uid://cvmbxw1ya6brt" path="res://scenes/player/player.tscn" id="3_r8rhy"]
 [ext_resource type="Script" uid="uid://su8nin3hgeqb" path="res://scripts/pause_menu.gd" id="4_f8pek"]
+[ext_resource type="AudioStream" uid="uid://c4t8grrt4ibb2" path="res://assets/audio/ambience.wav" id="6_emuka"]
 
 [node name="Bootstrap" type="Node2D" unique_id=252344105]
 script = ExtResource("1_tp0nq")
@@ -124,3 +125,8 @@ text = "Resume"
 [node name="Player" parent="." unique_id=11883185 instance=ExtResource("3_r8rhy")]
 position = Vector2(640, 560)
 fire_cooldown = 0.8
+
+[node name="Ambience" type="AudioStreamPlayer" parent="." unique_id=1934345838]
+stream = ExtResource("6_emuka")
+autoplay = true
+bus = &"Music"

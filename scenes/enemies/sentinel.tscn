@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://dggpyfkbwgnea" path="res://scripts/health_component.gd" id="1_fw2mp"]
 [ext_resource type="Script" uid="uid://ch0b2bixol704" path="res://scripts/hurtbox.gd" id="2_w7yvr"]
 [ext_resource type="Script" uid="uid://fw723os8pk6p" path="res://scripts/sentinel.gd" id="3_sentinel"]
+[ext_resource type="AudioStream" uid="uid://donmim3josptg" path="res://assets/audio/sentinel_windup.wav" id="4_thf0r"]
+[ext_resource type="AudioStream" uid="uid://dhvghtln0vj2s" path="res://assets/audio/sentinel_defeat.wav" id="5_ipnmj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v801n"]
 radius = 24.0
@@ -67,3 +69,11 @@ offset_left = -55.0
 offset_top = -65.0
 offset_right = 55.0
 offset_bottom = -41.0
+
+[node name="WindupSound" type="AudioStreamPlayer2D" parent="." unique_id=1245481873]
+stream = ExtResource("4_thf0r")
+bus = &"SFX"
+
+[node name="DefeatSound" type="AudioStreamPlayer2D" parent="." unique_id=247815530]
+stream = ExtResource("5_ipnmj")
+bus = &"SFX"

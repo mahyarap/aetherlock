@@ -25,6 +25,8 @@ const PROJECTILE_SCENE: PackedScene = preload(
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var interaction_detector: Area2D = $InteractionDetector
 @onready var interaction_prompt: Label = $InteractionPrompt
+@onready var shot_sound: AudioStreamPlayer2D = $ShotSound
+@onready var hit_sound: AudioStreamPlayer2D = $HitSound
 
 var aim_direction: Vector2 = Vector2.RIGHT
 var last_move_direction: Vector2 = Vector2.RIGHT
@@ -212,6 +214,7 @@ func _fire_projectile() -> void:
 
 	get_tree().current_scene.add_child(projectile)
 	projectile.initialize(muzzle.global_position, aim_direction)
+	shot_sound.play()
 	attack_timer.start()
 
 
@@ -219,6 +222,7 @@ func _on_damage_received(
 	_amount: int,
 	_hit_direction: Vector2,
 ) -> void:
+	hit_sound.play()
 	if health_component.current_health == 0:
 			return
 
