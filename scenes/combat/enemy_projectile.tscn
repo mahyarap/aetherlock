@@ -13,6 +13,7 @@ size = Vector2(12, 4)
 collision_layer = 0
 script = ExtResource("1_3wv28")
 speed = 325.0
+impact_color = Color(1, 0.82665706, 0.5657284, 1)
 
 [node name="Visual" type="ColorRect" parent="." unique_id=369697222]
 offset_left = -6.0
