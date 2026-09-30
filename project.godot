@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Aetherlock"
-run/main_scene="uid://bv72arbl3y81a"
+run/main_scene="uid://dhfmi8chpgj5q"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 

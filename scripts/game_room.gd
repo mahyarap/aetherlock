@@ -5,6 +5,7 @@ signal status_changed(message: String)
 signal transition_requested(destination_id: StringName)
 signal energy_key_awarded
 signal checkpoint_activated
+signal boss_defeated
 
 @export var room_title: String = "Room"
 @export var player_spawn: Marker2D
@@ -33,8 +34,13 @@ func _on_puzzle_completed() -> void:
 	energy_key_awarded.emit()
 
 
+func _on_checkpoint_activated() -> void:
+	checkpoint_activated.emit()
+
+
 func _on_sentinel_defeated() -> void:
 	status_changed.emit("Sentinel defeated.")
+	boss_defeated.emit()
 
 
 func _on_door_access_denied(message: String) -> void:
@@ -45,6 +51,3 @@ func _on_door_transition_requested(
 	destination_id: StringName,
 ) -> void:
 	transition_requested.emit(destination_id)
-
-func _on_checkpoint_activated() -> void:
-	checkpoint_activated.emit()

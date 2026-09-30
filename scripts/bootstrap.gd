@@ -9,6 +9,9 @@ const STORAGE_ROOM_SCENE: PackedScene = preload(
 const SENTINEL_ROOM_SCENE: PackedScene = preload(
     "res://scenes/rooms/sentinel_room.tscn"
 )
+const ENDING_SCENE: PackedScene = preload(
+    "res://scenes/ui/ending_screen.tscn"
+)
 
 @onready var room_container: Node2D = $RoomContainer
 @onready var hud: GameHUD = $HUD
@@ -17,6 +20,7 @@ const SENTINEL_ROOM_SCENE: PackedScene = preload(
 var current_room: GameRoom
 var transition_in_progress := false
 var restart_in_progress := false
+var ending_in_progress := false
 
 
 func _ready() -> void:
@@ -45,7 +49,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if player.health_component.current_health > 0:
 		return
 
-	if restart_in_progress:
+	if restart_in_progress or ending_in_progress:
 		return
 
 	restart_in_progress = true
@@ -64,23 +68,30 @@ func _connect_current_room() -> void:
 		_on_room_transition_requested
 	)
 	current_room.energy_key_awarded.connect(_on_energy_key_awarded)
-	current_room.checkpoint_activated.connect(_on_checkpoint_activated)
+	current_room.checkpoint_activated.connect(
+		_on_checkpoint_activated
+	)
+	current_room.boss_defeated.connect(_on_boss_defeated)
 
 	hud.show_room(current_room.room_title)
 
 
 func _on_checkpoint_activated() -> void:
-	if transition_in_progress:
+	if transition_in_progress or ending_in_progress:
 		return
 
 	if player.health_component.current_health <= 0:
 		return
 
-	var result: Error = GameSave.save_checkpoint(player.has_energy_key)
+	var result: Error = GameSave.save_checkpoint(
+		player.has_energy_key
+	)
 
 	if result != OK:
 		hud.show_status("Checkpoint could not be saved.")
-		push_warning("Cannot save checkpoint: %s" % error_string(result))
+		push_warning(
+			"Cannot save checkpoint: %s" % error_string(result)
+		)
 		return
 
 	player.health_component.restore_full_health()
@@ -88,24 +99,55 @@ func _on_checkpoint_activated() -> void:
 
 
 func _on_player_died() -> void:
-	hud.show_status("Offline. Press R to restart from the last save.")
+	if ending_in_progress:
+		return
+
+	hud.show_status(
+        "Offline. Press R to restart from the last save."
+	)
 
 
 func _on_energy_key_awarded() -> void:
 	if player.grant_energy_key():
-		hud.show_status("Energy key acquired. Storage exit unlocked.")
+		hud.show_status(
+            "Energy key acquired. Storage exit unlocked."
+		)
+
+
+func _on_boss_defeated() -> void:
+	if ending_in_progress:
+		return
+
+	ending_in_progress = true
+	player.set_process(false)
+	player.set_physics_process(false)
+	player.hurtbox.set_deferred("monitorable", false)
+
+	await get_tree().create_timer(1.0, false).timeout
+
+	get_tree().paused = false
+	var result: Error = get_tree().change_scene_to_packed(
+		ENDING_SCENE
+	)
+
+	if result != OK:
+		push_error(
+			"Cannot open ending: %s" % error_string(result)
+		)
 
 
 func _on_room_transition_requested(
 	destination_id: StringName,
 ) -> void:
-	if transition_in_progress:
+	if transition_in_progress or ending_in_progress:
 		return
 
 	var next_scene := _get_room_scene(destination_id)
 
 	if next_scene == null:
-		push_warning("Unknown room destination: %s" % destination_id)
+		push_warning(
+			"Unknown room destination: %s" % destination_id
+		)
 		return
 
 	await _change_room(next_scene)

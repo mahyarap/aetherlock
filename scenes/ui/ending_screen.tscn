@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://qbbcbe5ln1pv"]
+
+[ext_resource type="Script" uid="uid://cddivi8cuav4a" path="res://scripts/ending_screen.gd" id="1_802kv"]
+
+[node name="EndingScreen" type="Control" unique_id=1316955518]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_802kv")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1622807118]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0.2627451, 0.2627451, 0.2627451, 1)
+
+[node name="Panel" type="Panel" parent="." unique_id=1369783624]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 130.0
+offset_right = 940.0
+offset_bottom = 590.0
+
+[node name="EndingLabel" type="Label" parent="Panel" unique_id=1912215555]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 48.0
+offset_right = 552.0
+offset_bottom = 112.0
+text = "THE SENTINEL FALLS"
+
+[node name="MessageLabel" type="Label" parent="Panel" unique_id=1927807688]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 132.0
+offset_right = 552.0
+offset_bottom = 204.0
+text = "The laboratory is quiet again."
+
+[node name="TitleButton" type="Button" parent="Panel" unique_id=530306356]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 280.0
+offset_right = 430.0
+offset_bottom = 328.0
+text = "Return to title"
+
+[node name="QuitButton" type="Button" parent="Panel" unique_id=1993693331]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 344.0
+offset_right = 430.0
+offset_bottom = 392.0
+text = "Quit"
